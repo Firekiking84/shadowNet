@@ -1,0 +1,11 @@
+{pairs
+	[
+	label = "Test"
+	ip = "192.168.200.62"
+	port = 62085
+	]
+}
+limitIndirection = 15
+shareDir = "Share"
+externalPort = 57005
+internalPort = 48879

@@ -1,0 +1,48 @@
+Header :
+       <uint32_t lenMsg>
+		 <uint16_t lenSLabel> <uint8_t *SLabel>
+		 <uint32_t lenRLabel> <uint8_t * lenRLabel>
+		 <Packet>
+
+Packet :
+       requestType
+       addsocial
+       rmsocial
+       findRequest
+       findAnswer
+       dlRequest
+       dlFile
+
+
+Request Type :
+	0 = addSocial
+	1 = removeSocial
+	2 = find_request
+	3 = find_answer
+	4 = download_request
+	5 = download_file
+
+Data (addsocial) :
+     <uint16_t port>
+
+Data (removeSocial) : Empty
+
+Data (find_request) :
+     <uint16_t sizeFileName> <uint8_t *FileName>
+     <uint8_t nbRedirection>
+
+Data (find_answer) :
+     <uint16_t sizeFileName> <uint8_t *FileName>
+     <uint8_t answer> (1 = find, 2 = not find)
+
+Data (download_request) :
+     <uint16_t sizeFileName> <uint8_t *FileName>
+     <uint16_t nTronçon>
+
+Data (download_file) :
+     <uint16_t sizeFileName> <uint8_t *FileName>
+     <uint16_t nTronçon>
+     <uint16_t sizeTronçon> (max 2Ko) <bin Tronçon>
+     
+
+       

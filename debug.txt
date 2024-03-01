@@ -1,0 +1,9 @@
+/usr/bin/ld: /tmp/cc6rQLNE.o: in function `main':
+main.cpp:(.text+0x5e): undefined reference to `bunny_new_configuration'
+/usr/bin/ld: main.cpp:(.text+0x85): undefined reference to `bunny_configuration_setf_int'
+/usr/bin/ld: main.cpp:(.text+0xa5): undefined reference to `bunny_configuration_setf_int'
+/usr/bin/ld: main.cpp:(.text+0xc5): undefined reference to `bunny_configuration_setf_int'
+/usr/bin/ld: main.cpp:(.text+0xe6): undefined reference to `bunny_save_configuration'
+/usr/bin/ld: main.cpp:(.text+0x121): undefined reference to `ef::ShadowNet::ShadowNet(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)'
+/usr/bin/ld: main.cpp:(.text+0x130): undefined reference to `ef::ShadowNet::~ShadowNet()'
+collect2: error: ld returned 1 exit status

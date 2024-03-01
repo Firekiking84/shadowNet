@@ -8,4 +8,5 @@ void			ef::FileRequestManager::refreshFiles()
   if ((curTime - lastRefresh) < 60)
     return;
   lastRefresh = curTime;
+  
 }
