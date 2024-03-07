@@ -19,7 +19,7 @@ namespace	ef
     void	addPair(contact			newPair);
     void	removePair(std::string const	&label);
     bool	isAPair(contact			&stranger) const;
-    
+
   protected:
     std::map<std::string, contact>		pairs;
   private:

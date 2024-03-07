@@ -28,7 +28,7 @@ void			ef::ShadowNet::manageInternalInput()
   else if (buffer.compare(0, 11, "requestfile") == 0) // 11 = strlen("requestfile")
     {
       std::string	filename;
-      
+
       getParameters(buffer, filename);
       sendSearchRequest(filename);
     }
@@ -61,5 +61,5 @@ void			ef::ShadowNet::manageInternalInput()
 
       newPacket.type = PING;
       sendPacket(newPacket, pairs);
-    }	
+    }
 }

@@ -5,8 +5,38 @@ LIBFILE =		lib$(LIBNAME).a
 SRC =			src/main.cpp					\
 			src/contact/contact.cpp				\
 			src/contact/operator.cpp			\
+			src/FileManager/close.cpp			\
+			src/FileManager/FileManager.cpp			\
+			src/FileManager/getFilename.cpp			\
+			src/FileManager/getFileSize.cpp			\
+			src/FileManager/getPosition.cpp			\
+			src/FileManager/isOpen.cpp			\
+			src/FileManager/open.cpp			\
+			src/FileManager/read.cpp			\
+			src/FileManager/readFile.cpp			\
+			src/FileManager/readLine2.cpp			\
+			src/FileManager/readLine.cpp			\
+			src/FileManager/seek.cpp			\
+			src/FileManager/write.cpp			\
+			src/FileRequestManager/compareKeywords.cpp	\
 			src/FileRequestManager/FileRequestManager.cpp	\
+			src/FileRequestManager/forgetFile.cpp		\
+			src/FileRequestManager/getFile.cpp		\
+			src/FileRequestManager/getKeywords.cpp		\
+			src/FileRequestManager/getStatus.cpp		\
+			src/FileRequestManager/isFileFind.cpp		\
+			src/FileRequestManager/isFilePossessed.cpp	\
+			src/FileRequestManager/manageDLRequest.cpp	\
+			src/FileRequestManager/manageDLResult.cpp	\
+			src/FileRequestManager/manageSearchRequest.cpp	\
+			src/FileRequestManager/manageSearchResult.cpp	\
 			src/FileRequestManager/refreshFiles.cpp		\
+			src/FileRequestManager/removeExtension.cpp	\
+			src/FileRequestManager/sendDownloadRequest.cpp	\
+			src/FileRequestManager/sendFile.cpp		\
+			src/FileRequestManager/sendSearchRequest.cpp	\
+			src/FileRequestManager/shareRequest.cpp		\
+			src/FileRequestManager/timeToDie.cpp		\
 			src/NetworkUDP/can.cpp				\
 			src/NetworkUDP/NetworkUDP.cpp			\
 			src/NetworkUDP/newAddr.cpp			\

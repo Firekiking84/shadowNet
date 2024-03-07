@@ -43,7 +43,7 @@ namespace ef
     int 		can(Mode						mode,
 			    int							target = -1,
 			    int							timeout = -1);
-    void		newAddr(contact					&	_contact);
+    void		newAddr(contact					&	_contact) const;
     bool		readFd(std::string				&	buffer,
 			       int						sizeBuffer,
 			       int						fd);
@@ -56,10 +56,23 @@ namespace ef
 				   size_t				&	sizeBuffer);
     void		sendUser(std::string const			&	msg);
     void		sendPacket(Packet const				&	data,
+				   std::map<std::string, contact> const	&	contactList,
+				   std::vector<contact> const		&	excludeList);
+    void		sendPacket(Packet const				&	data,
+				   std::map<std::string, contact> const	&	contactList,
+				   contact const			&	excludeContact);
+    void		sendPacket(Packet const				&	data,
 				   std::map<std::string, contact> const	&	contactList);
     void		sendPacket(Packet const				&	data,
+				   std::vector<contact> const		&	contactList,
+				   std::vector<contact> const		&	excludeList);
+    void		sendPacket(Packet const				&	data,
+				   std::vector<contact> const		&	contactList,
+				   contact const			&	excludeContact);
+    void		sendPacket(Packet const				&	data,
+				   std::vector<contact> const		&	contactList);
+    void		sendPacket(Packet const				&	data,
 				   contact const			&	contact);
-    int			getFdSocket();
 
   protected:
     contact		internal;

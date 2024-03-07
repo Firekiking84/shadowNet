@@ -23,6 +23,7 @@ namespace ef
     void				saveConf();
     void				resetConf() const;
   protected:
+    int					limitRedirection;
     int					externalPort;
     int					internalPort;
     bool				hasConf;

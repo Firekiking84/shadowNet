@@ -3,21 +3,30 @@
 // ***     ***     ***     ******  *******  *****      **********************
 // **  ******  ******  *** *****  *******  *********  ***********************
 // *     ***  ******  *** ***       ****  *****      ************************
-// 07/03/2024 17:20:42 ******************************************************
+// 07/03/2024 17:09:22 ******************************************************
 // keryan.houssin <keryan.houssin@aldrin.efrits.fr>
 // - ShadowNet -
 // * *** * * ***  ** * ** ** ** ** * * * *** * **  **************************
 
-#include	"fileRequestManager.hh"
+#include		"fileRequestManager.hh"
 
-ef::FileRequestManager::FileRequestManager(std::string const	&_cnf_name)
-  : Social(_cnf_name)
-  , lastRefresh(0)
+// t e s t . t x t
+// 0 1 2 3 4 5 6 7
+// size : 8
+
+// resize : index('.') = 4
+
+// t e s t
+// 0 1 2 3
+// size : 4
+
+void			ef::FileRequestManager::removeExtension(std::string	&	str) const
 {
-  refreshFiles();
-}
+  size_t		i;
 
-ef::FileRequestManager::~FileRequestManager()
-{
-
+  for (i = str.size() - 1; i > 0; i -= 1)
+    {
+      if (str[i] == '.')
+	str.resize(i);
+    }
 }

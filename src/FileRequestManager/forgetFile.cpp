@@ -3,21 +3,19 @@
 // ***     ***     ***     ******  *******  *****      **********************
 // **  ******  ******  *** *****  *******  *********  ***********************
 // *     ***  ******  *** ***       ****  *****      ************************
-// 07/03/2024 17:20:42 ******************************************************
+// 07/03/2024 17:20:05 ******************************************************
 // keryan.houssin <keryan.houssin@aldrin.efrits.fr>
 // - ShadowNet -
 // * *** * * ***  ** * ** ** ** ** * * * *** * **  **************************
 
 #include	"fileRequestManager.hh"
 
-ef::FileRequestManager::FileRequestManager(std::string const	&_cnf_name)
-  : Social(_cnf_name)
-  , lastRefresh(0)
+void		ef::FileRequestManager::forgetFile(std::string const	&filename)
 {
-  refreshFiles();
-}
+  myPendingRequest.erase(filename);
+  std::map<uint64_t, fileInfoPair>::iterator	it;
 
-ef::FileRequestManager::~FileRequestManager()
-{
-
+  for (it = filesFind.begin(); it != filesFind.end(); ++it)
+    if (it->second.filename == filename)
+      filesFind.erase(it);
 }

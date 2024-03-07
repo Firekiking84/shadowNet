@@ -3,7 +3,9 @@
 void			ef::Social::addPair(contact			newPair)
 {
   if (newPair.ip.size() == 0 || newPair.label.size() == 0 || newPair.port == 0)
-    return; // log
+    return; // log error format
+  if (pairs.find(newPair.label) == pairs.end())
+    return; // log label already exist
   newAddr(newPair);
   pairs[newPair.label] = newPair;
 }

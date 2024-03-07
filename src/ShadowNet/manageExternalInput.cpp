@@ -15,13 +15,13 @@ void			ef::ShadowNet::manageExternalInput()
   if (!isAPair(pair))
     return;
   if (data.type == FIND_REQUEST)
-    manageSearchRequest(data.findRequest);
+    manageSearchRequest(data.findRequest, pair);
   else if (data.type == FIND_ANSWER)
-    manageSearchResult(data.findAnswer);
-  else if (data.type == DL_REQUEST)
-    manageDLRequest(data.dlRequest);
+    manageSearchResult(data.findAnswer, pair);
+  else if (data.type == DL_REQUEST || data.type == DL_UNIQUE_REQUEST)
+    manageDLRequest(data.dlRequest, pair);
   else if (data.type == DL_FILE)
-    manageDownload(data.download);
+    manageDownload(data.download, pair);
   else if (data.type == PING)
     {
       Packet		newPacket;
@@ -31,6 +31,9 @@ void			ef::ShadowNet::manageExternalInput()
     }
   else if (data.type == PONG)
     {
-      // to do
+      std::string	msg;
+
+      msg = "Your pair " + pair.label + " is connected !";
+      sendUser(msg);
     }
 }

@@ -14,7 +14,7 @@ int			main(int	ac,
 
       bunny_configuration_setf_int(cnf, 57005, "externalPort");
       bunny_configuration_setf_int(cnf, 48879, "internalPort");
-      bunny_configuration_setf_int(cnf, 15, "limitIndirection");
+      bunny_configuration_setf_int(cnf, 15, "limitRedirection");
       bunny_save_configuration(BC_DABSIC, conf_name.c_str(), NULL);
     }
   else
