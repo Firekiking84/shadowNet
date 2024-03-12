@@ -35,5 +35,5 @@ void			ef::FileRequestManager::getKeyWords(char const			*word,
   std::string		strWord;
 
   strWord = word;
-  getKeyWord(strWord, keywords);
+  getKeyWords(strWord, keywords);
 }

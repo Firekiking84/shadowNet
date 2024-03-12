@@ -28,11 +28,24 @@ void		ef::FileRequestManager::manageSearchResult(s_findAnswer const	&	answer,
       if (filesFind.find(answer.hashFile) != filesFind.end())
 	{
 	  filesFind[answer.hashFile].pairs.erase(pair.label);
-	  if (filesFind[answer.hashFile].pairs.count() == 0)
+	  addLog("One pair has lose a file !");
+	  if (filesFind[answer.hashFile].pairs.size() == 0)
 	    {
 	      filesFind.erase(answer.hashFile);
+	      addLog("The file has been definitely lose on your network !");
 	      if (pendingDLRequest.find(answer.hashFile) == pendingDLRequest.end())
-		pendingDLRequest.erase(answer.hashFile);
+		{
+		  addLog("Cancelling pending download requests !");
+		  data.findAnswer = answer;
+		  for (i = 0; i < pendingDLRequest[answer.hashFile].size(); i += 1)
+		    sendPacket(data, pendingDLRequest[answer.hashFile][i].pair);
+		  pendingDLRequest.erase(answer.hashFile);
+		}
+	      if (currentDownload.find(answer.hashFile) != currentDownload.end())
+	      {
+		addLog("Cancelling download !");
+		currentDownload.erase(answer.hashFile);
+	      }
 	    }
 	}
     }
@@ -46,9 +59,10 @@ void		ef::FileRequestManager::manageSearchResult(s_findAnswer const	&	answer,
 	{
 	  if (pendingSearchRequest.find(keywords[i]) != pendingSearchRequest.end())
 	    {
+	      addLog("Send search results to concerned pairs");
 	      data.findAnswer = answer;
-	      sendPacket(data, pendingSearchRequest[answer.hashFile], pair);
-	      pendingSearchRequest.erase(answer.hashFile);
+	      sendPacket(data, pendingSearchRequest[keywords[i]], pair);
+	      pendingSearchRequest.erase(keywords[i]);
 	    }
 	}
       if (filesFind.find(answer.hashFile) == filesFind.end())
@@ -56,19 +70,25 @@ void		ef::FileRequestManager::manageSearchResult(s_findAnswer const	&	answer,
 	  fileInfoPair	fileInfo;
 	  std::string	description;
 
-	  description = answer.description; // attention \0
+	  description = (char *)answer.description; // attention \0
 	  description = description.substr(filename.size());
-	  fileInfo.owners[pair.label] = pair;
+	  fileInfo.pairs[pair.label] = pair;
 	  fileInfo.filename = filename;
 	  fileInfo.description = description;
 	  fileInfo.nbPart = answer.answer;
-	  fileInfo.lastUpdate = reinterpret_cast<size_t>(time(NULL));
+	  fileInfo.lastUpdate = (size_t)time(NULL);
 	  filesFind[answer.hashFile] = fileInfo;
+	  description = filename + " has been find on your network !";
+	  addLog(description);
 	}
       else
 	{
-	  filesFind[answer.hashFile].owners[pair.label] = pair;
-	  filesFind[answer.hashFile].lastUpdate = reinterpret_cast<size_t>(time(NULL));
+	  std::string	newLog;
+
+	  filesFind[answer.hashFile].pairs[pair.label] = pair;
+	  filesFind[answer.hashFile].lastUpdate = (size_t)time(NULL);
+	  newLog = "Another pair has find : " + filesFind[answer.hashFile].filename;
+	  addLog(newLog);
 	}
     }
 }

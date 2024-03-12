@@ -12,24 +12,25 @@
 
 void			ef::FileRequestManager::sendDownloadRequest(uint64_t			hashFile)
 {
-  if (filesFind.find(hashFile) == filesFind.end())
-    return; // log No pair has this file
   if (currentDownload.find(hashFile) != currentDownload.end())
-    return; // log Already downloading
+    {
+      sendUser("This file is already downloading !");
+      return; // log Already downloading
+    }
   Packet		data;
   size_t		divSize;
   size_t		i;
   std::map<std::string, contact>::iterator	it;
 
   data.type = DL_REQUEST;
-  data.nDiv = filesFind[hashFile].pairs.count();
-  divSize = filesFind[hashFile].nbPart / data.nDiv;
+  data.dlRequest.nDiv = filesFind[hashFile].pairs.size();
+  divSize = filesFind[hashFile].nbPart / data.dlRequest.nDiv;
   i = 0;
   for (it = filesFind[hashFile].pairs.begin();
        it != filesFind[hashFile].pairs.end();
        ++it)
     {
-      data.nPart = i * divSize;
+      data.dlRequest.nPart = i * divSize;
       sendPacket(data, it->second);
       i += 1;
     }
@@ -47,11 +48,12 @@ void			ef::FileRequestManager::sendDownloadRequest(uint64_t			hashFile)
   for (i = 0; i < filesFind[hashFile].nbPart; i += 1)
     {
       if (i == filesFind[hashFile].nbPart - 1)
-	currentDownload[hashFile].file.write(str.c_str, filesFind[hashFile].sizeFile % 2048);
+	currentDownload[hashFile].file.write(str.c_str(), filesFind[hashFile].sizeFile % 2048);
       else
-	currentDownload[hashFile].file.write(str.c_str, 2048);
+	currentDownload[hashFile].file.write(str.c_str(), 2048);
     }
-  currentDownload[hashFile].lastUpdate = reinterpret_cast<size_t>(time(NULL));
+  currentDownload[hashFile].lastUpdate = (size_t)time(NULL);
+  sendUser("The downloading has been successfully launched !");
 }
 
 void			ef::FileRequestManager::sendDownloadRequest(std::string const	&	filename)
@@ -63,5 +65,6 @@ void			ef::FileRequestManager::sendDownloadRequest(std::string const	&	filename)
       if (it->second.filename == filename)
 	return(sendDownloadRequest(it->first));
     }
+  sendUser("No pair has the file you requested !");
   return; // log no pair has the file need searching before
 }

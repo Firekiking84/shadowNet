@@ -10,14 +10,14 @@
 
 #include		"fileRequestManager.hh"
 
-void			ef::FileRequestManager::getFile(std::vector<std::string> const			keywordsA,
+void			ef::FileRequestManager::getFile(std::vector<std::string> const			&keywordsA,
 							std::map<uint64_t, fileInfoName>::iterator	&it) const
 {
  std::vector<std::string>	keywordsB;
 
   for (; it != filesPossessed.end(); ++it)
     {
-      getKeyWord(it->second.filename, keywordsB);
+      getKeyWords(it->second.filename, keywordsB);
       if (compareKeywords(keywordsA, keywordsB))
 	return;
     }
@@ -29,7 +29,7 @@ void			ef::FileRequestManager::getFile(std::string const	&word,
   std::vector<std::string>	keywordsA;
 
   getKeyWords(word, keywordsA);
-  getFile(keywordsA), it;
+  getFile(keywordsA, it);
 }
 
 void			ef::FileRequestManager::getFile(char const	*word,
@@ -46,9 +46,9 @@ void			ef::FileRequestManager::getFile(std::vector<std::string> const			&keyword
 {
   std::vector<std::string>	keywordsB;
 
-  for (; it != filesPossessed.end(); ++it)
+  for (; it != filesFind.end(); ++it)
     {
-      getKeyWord(it->second.filename, keywordsB);
+      getKeyWords(it->second.filename, keywordsB);
       if (compareKeywords(keywordsA, keywordsB))
 	return;
     }

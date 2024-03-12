@@ -1,3 +1,4 @@
+
 // *****     ***     ***     ***       **       ***      ********************
 // ****  ******  ******  **  *****  *******  *****  *************************
 // ***     ***     ***     ******  *******  *****      **********************
@@ -18,7 +19,10 @@ void			ef::FileRequestManager::sendFile(s_downloadRequest const	&	request,
   size_t		nbToRead;
   size_t		i;
   Packet		data;
+  std::string		newLog;
 
+  newLog = "Send file data to " + pair.label;
+  addLog(newLog);
   file.seek(2048 * request.nPart, FileManager::SeekFlags::BEG);
   if (request.type == DL_UNIQUE_REQUEST)
     nbToRead = 1;
@@ -28,16 +32,26 @@ void			ef::FileRequestManager::sendFile(s_downloadRequest const	&	request,
   data.download.request.type = DL_FILE;
   for (i = 0; i < nbToRead; i += 1)
     {
-      data.download.sizePart = file.read(data.dowload.part, 2048);
-      if (data.download.sizePart != -1)
-	sendPacket(data, pair);
+      ssize_t		sizePart;
+
+      sizePart = file.read((char *)data.download.part, 2048);
+      if (sizePart != -1)
+	{
+	  data.download.sizePart = sizePart;
+	  sendPacket(data, pair);
+	}
       data.download.request.nPart += 1;
     }
   if (request.type != DL_UNIQUE_REQUEST && (file.getFileSize() - file.getPosition()) < 2048)
     {
-      data.download.sizePart = file.read(data.dowload.part, 2048);
-      if (data.download.sizePart != -1)
-	sendPacket(data, pair);
+      ssize_t		sizePart;
+
+      sizePart = file.read((char *)data.download.part, 2048);
+      if (sizePart != -1)
+	{
+	  data.download.sizePart = sizePart;
+	  sendPacket(data, pair);
+	}
     }
   file.close();
 }

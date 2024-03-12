@@ -15,8 +15,7 @@ ssize_t				ef::NetworkUDP::recvPacket(int				fd,
   sizeRcv = recvfrom(fd, &data, sizeof(data), 0, reinterpret_cast<struct sockaddr *>(&addr), &addrlen);
   if (sizeRcv == -1)
     {
-      std::cerr << "Erreur de Recvfrom" << std::endl;
-      perror("Erreur : ");
+      addLog("Packet recieving has caught an error ! ");
       return(-1);
     }
   return(sizeRcv);

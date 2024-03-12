@@ -14,7 +14,7 @@ void			ef::User::openConf()
       hasConf = false;
       return; // put log
     }
-  if (bunny_configuraiton_getf_int(cnf, &limitRedirection, "limitRedirection") == false)
+  if (bunny_configuration_getf_int(cnf, &limitRedirection, "limitRedirection") == false)
     throw(std::runtime_error("Error missing argument in configuration file : No redirection limit"));
   if (bunny_configuration_getf_int(cnf, &externalPort, "externalPort") == false)
     throw(std::runtime_error("Error missing argument in configuration file : No External Port"));

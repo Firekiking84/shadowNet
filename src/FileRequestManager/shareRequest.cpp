@@ -10,7 +10,7 @@
 
 #include		"fileRequestManager.hh"
 
-void			ef::FileRequestManager::shareRequest(s_dowloadRequest const	&	request,
+void			ef::FileRequestManager::shareRequest(s_downloadRequest const	&	request,
 							     contact const		&	pair,
 							     bool				isBroadcast)
 {
@@ -23,18 +23,18 @@ void			ef::FileRequestManager::shareRequest(s_dowloadRequest const	&	request,
     {
       data.dlRequest = request;
       if (!isBroadcast)
-	sendPacket(data, fileFind[request.hashFile].pairs.end(), pair); //end because the most recent
+	sendPacket(data, filesFind[request.hashFile].pairs.rbegin()->second, pair); //end because the most recent
       else
-	sendPacket(data, fileFind[request.hashFile].pairs, pair);
+	sendPacket(data, filesFind[request.hashFile].pairs, pair);
     }
   else
     {
-      divSize = filesFind[hashFile].nbPart / request.nDiv;
+      divSize = filesFind[request.hashFile].nbPart / request.nDiv;
       data.dlRequest = request;
-      data.dlRequest.nDiv = request.nDiv * filesFind[request.hashFile].pairs.count();
+      data.dlRequest.nDiv = request.nDiv * filesFind[request.hashFile].pairs.size();
       i = 0;
-      for (it = fileFind[request.hashFile].pairs.begin();
-	   it != fileFind[request.hashFile].pairs.end();
+      for (it = filesFind[request.hashFile].pairs.begin();
+	   it != filesFind[request.hashFile].pairs.end();
 	   ++ it)
 	{
 	  data.dlRequest.nPart = request.nPart + (divSize * i);

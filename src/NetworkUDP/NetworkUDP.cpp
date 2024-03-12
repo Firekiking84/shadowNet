@@ -11,10 +11,11 @@
 
 ef::NetworkUDP::NetworkUDP(std::string const	&	_cnf_name)
   : User(_cnf_name)
+  , isConnected(false)
 {
   struct sockaddr_in	sockaddr;
   int			status;
-  
+
   pfd[EXTERNAL].fd = socket(AF_INET, SOCK_DGRAM, 0);
   pfd[EXTERNAL].events = POLLIN | POLLOUT;
   memset(&sockaddr, 0, sizeof(sockaddr));
@@ -29,14 +30,18 @@ ef::NetworkUDP::NetworkUDP(std::string const	&	_cnf_name)
   pfd[INTERNAL].events = POLLIN | POLLOUT;
   memset(&sockaddr, 0, sizeof(sockaddr));
   sockaddr.sin_family = AF_INET;
-  sockaddr.sin_port = htons(externalPort);
+  sockaddr.sin_port = htons(internalPort);
   sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
   status = bind(pfd[INTERNAL].fd, reinterpret_cast<struct sockaddr *>(&sockaddr), sizeof(sockaddr));
   if (status == -1)
-    throw (std::runtime_error("BindError"));
+    {
+      perror("Bind : ");
+      throw (std::runtime_error("BindError"));
+    }
 }
 
 ef::NetworkUDP::~NetworkUDP()
 {
-  close(pfd[2].fd);
+  close(pfd[INTERNAL].fd);
+  close(pfd[EXTERNAL].fd);
 }

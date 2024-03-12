@@ -11,7 +11,7 @@
 #include		<netinet/in.h>
 #include		<arpa/inet.h>
 
-void			ef::NetworkUDP::newAddr(contact		&	_contact)
+void			ef::NetworkUDP::newAddr(contact		&	_contact) const
 {
   memset(&_contact.addr, 0, sizeof(_contact.addr));
   _contact.addr.sin_family = AF_INET;

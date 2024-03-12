@@ -5,6 +5,8 @@
 #include				<lapin.h>
 #include				<iostream>
 
+#include				"fileManager.hh"
+
 namespace				ef
 {
   class					ProgramStatus
@@ -13,11 +15,13 @@ namespace				ef
     ProgramStatus();
     virtual ~ProgramStatus();
 
-    void				printLog();
+    std::string				getLog();
+    void				addLog(const char		*	newLog);
+    void				addLog(std::string const	&	newLog);
   protected:
     bool				isRunning;
   private:
-    
+    FileManager				logFile;
   };
 }
 

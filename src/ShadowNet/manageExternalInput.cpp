@@ -6,34 +6,55 @@ void			ef::ShadowNet::manageExternalInput()
   Packet		data;
 
   if (recvPacket(pfd[EXTERNAL].fd, addr, data) == -1)
-    return; // log
-
+    return;
   contact		pair;
+  std::string		newLog;
 
   pair.ip = inet_ntoa(addr.sin_addr);
   pair.port = ntohs(addr.sin_port);
   if (!isAPair(pair))
-    return;
+    {
+      addLog("Message receive by an unknown pair. Rejected !");
+      return;
+    }
   if (data.type == FIND_REQUEST)
-    manageSearchRequest(data.findRequest, pair);
+    {
+      newLog = "Manage a request of ";
+      newLog += ((const char *)data.findRequest.name);
+      newLog += " ask by " + pair.label;
+      addLog(newLog);
+      manageSearchRequest(data.findRequest, pair);
+    }
   else if (data.type == FIND_ANSWER)
-    manageSearchResult(data.findAnswer, pair);
+    {
+      newLog = "Manage of search result send by " + pair.label;
+      addLog(newLog);
+      manageSearchResult(data.findAnswer, pair);
+    }
   else if (data.type == DL_REQUEST || data.type == DL_UNIQUE_REQUEST)
-    manageDLRequest(data.dlRequest, pair);
+    {
+      newLog = "Manage download request send by " + pair.label;
+      addLog(newLog);
+      manageDLRequest(data.dlRequest, pair);
+    }
   else if (data.type == DL_FILE)
-    manageDownload(data.download, pair);
+    {
+      newLog = "Manage file transfering send by " + pair.label;
+      addLog(newLog);
+      manageDownload(data.download, pair);
+    }
   else if (data.type == PING)
     {
       Packet		newPacket;
 
+      newLog = pair.label + " has send a ping !";
+      addLog(newLog);
       newPacket.type = PONG;
       sendPacket(newPacket, pair);
     }
   else if (data.type == PONG)
     {
-      std::string	msg;
-
-      msg = "Your pair " + pair.label + " is connected !";
-      sendUser(msg);
+      newLog = pair.label + " has answered ping command !";
+      addLog(newLog);
     }
 }

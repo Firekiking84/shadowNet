@@ -7,12 +7,15 @@ void			ef::ShadowNet::run()
   while (isRunning)
     {
       fd = can(ef::NetworkUDP::Mode::READ, -1, 60000); // check 1 min
-      if (fd == 0)
+      if (pfd[EXTERNAL].fd == fd)
 	manageExternalInput();
-      else if (fd == 1)
+      else if (pfd[INTERNAL].fd == fd)
 	manageInternalInput();
       else if (fd != -3) // -3 == timeout
-	throw(std::runtime_error("Error while listening !"));
+	{
+	  perror("Erreur Run : ");
+	  throw(std::runtime_error("Error while listening !"));
+	}
       refreshFiles();
       timeToDie();
     }

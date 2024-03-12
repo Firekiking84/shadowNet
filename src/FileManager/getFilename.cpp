@@ -2,5 +2,5 @@
 
 char const	*	ef::FileManager::getFilename()
 {
-  return(filename.c_str());
+  return(fileName.c_str());
 }

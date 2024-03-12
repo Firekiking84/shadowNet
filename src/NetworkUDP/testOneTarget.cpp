@@ -6,18 +6,17 @@
 
 #include		"networkUDP.hh"
 
-int			ef::NetworkUDP::testOneTarget(struct pollfd	&	tmp_pfd,
-						      int			target,
+int			ef::NetworkUDP::testOneTarget(int			target,
 						      int			timeout)
 {
   int				status;
 
-  status = poll(&pfd[target], 1, 0);
+  status = poll(&pfd[target], 1, timeout);
   if (status == 0)
     return(-3);
   else if (status == -1)
     return(-1);
-  else if (pfd[target].revents & tmp_pfd.events)
+  else if (pfd[target].revents & pfd[target].events)
     return(pfd[target].fd);
   return(-1);
 }

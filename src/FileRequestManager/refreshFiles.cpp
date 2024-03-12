@@ -26,7 +26,7 @@ void			ef::FileRequestManager::refreshFiles()
   const std::filesystem::path sharePath(shareDir);
   filesPossessed.clear();
 
-  for (std::filesystem::recursive_directory dir_entry = std::filesystem::recursive_directory_iterator{sharePath};
+  for (std::filesystem::recursive_directory_iterator dir_entry = std::filesystem::recursive_directory_iterator{sharePath};
        dir_entry != std::filesystem::recursive_directory_iterator();
        ++dir_entry)
     {
@@ -38,7 +38,7 @@ void			ef::FileRequestManager::refreshFiles()
 	  FileManager		File(filename, FileManager::OpenFlags::Rdonly);
 
 	  hashFile = std::hash<std::string>{}(File.readFile());
-	  file.close();
+	  File.close();
 	  sizeFile = std::filesystem::file_size(dir_entry->path());
 	  filesPossessed[hashFile].filename = filename;
 	  filesPossessed[hashFile].sizeFile = sizeFile;
@@ -52,7 +52,7 @@ void			ef::FileRequestManager::refreshFiles()
 	    filesPossessed[hashFile].nbPart = 1;
 	  removeExtension(filename);
 	  filename += ".sdwn";
-	  if (std::filesystem::exist(filename))
+	  if (std::filesystem::exists(filename))
 	    {
 	      File.open(filename, FileManager::OpenFlags::Rdonly);
 	      filesPossessed[hashFile].description = File.readFile();

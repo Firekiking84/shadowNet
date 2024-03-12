@@ -10,6 +10,14 @@
 
 void				ef::NetworkUDP::sendUser(std::string const		&	msg)
 {
-  if (can(Mode::WRITE, pfd[INTERNAL].fd, 10000) == pfd[INTERNAL].fd)
-    sendto(pfd[INTERNAL].fd, msg.c_str(), msg.size(), 0, &internal.sAddr, sizeof(internal.sAddr));
+  if (can(Mode::WRITE, INTERNAL, 10000) == pfd[INTERNAL].fd)
+    sendto(pfd[INTERNAL].fd, msg.c_str(), msg.size(), 0, &user.sAddr, sizeof(user.addr));
+}
+
+void				ef::NetworkUDP::sendUser(char const			*	msg)
+{
+  std::string			strMsg;
+
+  strMsg = msg;
+  sendUser(strMsg);
 }

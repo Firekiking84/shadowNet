@@ -55,6 +55,10 @@ namespace ef
 				   std::string				&	buffer,
 				   size_t				&	sizeBuffer);
     void		sendUser(std::string const			&	msg);
+    void		sendUser(char const				*	msg);
+    void		sendPacket(Packet const				&	data,
+				   std::map<std::string, contact> const	&	contactList,
+				   std::map<std::string, std::string> const	&excludeList);
     void		sendPacket(Packet const				&	data,
 				   std::map<std::string, contact> const	&	contactList,
 				   std::vector<contact> const		&	excludeList);
@@ -65,23 +69,27 @@ namespace ef
 				   std::map<std::string, contact> const	&	contactList);
     void		sendPacket(Packet const				&	data,
 				   std::vector<contact> const		&	contactList,
+				   std::map<std::string, std::string> const &	excludeList);
+    void		sendPacket(Packet const				&	data,
+				   std::vector<contact> const		&	contactList,
 				   std::vector<contact> const		&	excludeList);
     void		sendPacket(Packet const				&	data,
 				   std::vector<contact> const		&	contactList,
 				   contact const			&	excludeContact);
     void		sendPacket(Packet const				&	data,
 				   std::vector<contact> const		&	contactList);
+    void		sendPacket(Packet const				&       data,
+				   contact const			&	pair,
+				   contact const			&	excludeContact);
     void		sendPacket(Packet const				&	data,
 				   contact const			&	contact);
-
   protected:
-    contact		internal;
+    contact		user;
+    bool		isConnected;
     struct pollfd	pfd[2];
   private:
-    int			testAllTarget(struct pollfd			&	tmp_pfd,
-				      int					timeout);
-    int			testOneTarget(struct pollfd			&	tmp_pfd,
-				      int					target,
+    int			testAllTarget(int					timeout);
+    int			testOneTarget(int					target,
 				      int					timeout);
   };
 }

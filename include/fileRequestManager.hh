@@ -19,6 +19,7 @@
 #include	"request.hh"
 
 #include	<ctime>
+#include	<filesystem>
 
 namespace	ef
 {
@@ -30,6 +31,10 @@ namespace	ef
 
     void	sendSearchRequest(std::string const		&filename,
 				  std::map<std::string, std::string> const	&excludeList,
+				  int				nbRedirect = -1,
+				  int				limit = -2);
+    void	sendSearchRequest(std::string const		&filename,
+				  std::vector<contact> const	&excludeList,
 				  int				nbRedirect = -1,
 				  int				limit = -2);
     void	sendSearchRequest(std::string const		&filename,
@@ -50,7 +55,7 @@ namespace	ef
     void	manageDLRequest(s_downloadRequest const		&request,
 				contact const			&pair);
     void	manageDownload(s_download const			&answer,
-				    contact const		&pair);
+			       contact const		&pair);
     void	forgetFile(std::string const			&filename);
     int		getStatus(uint64_t				hashFile,
 			  std::string				&status);
@@ -72,7 +77,7 @@ namespace	ef
     std::map<std::string, std::vector<contact>>	pendingSearchRequest;
     // key = keyword, value = pair who search it
 
-    std::map<uint64_t, s_request>	pendingDLRequest;
+    std::map<uint64_t, std::vector<s_request>>	pendingDLRequest;
     // key = hashFile, value = requests
 
     std::map<std::string, size_t>		myPendingRequest;
@@ -85,18 +90,18 @@ namespace	ef
 			    std::vector<std::string>		&keywords) const;
     void	getKeyWords(char const				*word,
 			    std::vector<std::string>		&keywords) const;
-    void	getFile(std::vector<std::string>				&keywordsA,
+    void	getFile(std::vector<std::string> const				&keywordsA,
 			std::map<uint64_t, fileInfoName>::iterator		&it) const;
     void	getFile(std::string const					&word,
-			std::map<uint64_t, fileInfoName>::iterator const	it) const;
+			std::map<uint64_t, fileInfoName>::iterator		&it) const;
     void       	getFile(char const						*word,
-			std::map<uint64_t, fileInfoName>::iterator const	it) const;
+			std::map<uint64_t, fileInfoName>::iterator		&it) const;
     void	getFile(std::vector<std::string> const				&keywordsA,
-			std::map<uint64_t, fileInfoName>::iterator const	it) const;
+			std::map<uint64_t, fileInfoPair>::iterator		&it) const;
     void	getFile(std::string const					&word,
-			std::map<uint64_t, fileInfoPair>::iterator const	it) const;
+			std::map<uint64_t, fileInfoPair>::iterator		&it) const;
     void       	getFile(char const						*word,
-			std::map<uint64_t, fileInfoPair>::iterator const	it) const;
+			std::map<uint64_t, fileInfoPair>::iterator		&it) const;
 
 
     bool	compareKeywords(std::vector<std::string> const	&a,
@@ -107,13 +112,15 @@ namespace	ef
     void	shareRequest(s_downloadRequest const		&	request,
 			     contact const			&	pair,
 			     bool					isBroadcast = false);
-    void	removeExtension(std::string			&	str) const;
     void	isFilePossessed(s_findRequest const		&	request,
 				contact const			&	pair,
 				std::vector<std::string> const	&	keywords);
     void        isFileFind(s_findRequest const			&	request,
 			   contact const			&	pair,
 			   std::vector<std::string> const	&	keywords);
+    bool	hasAlreadyRequest(s_downloadRequest const	&	request,
+				  contact const			&	pair);
+
   };
 }
 

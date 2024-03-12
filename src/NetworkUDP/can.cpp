@@ -13,15 +13,26 @@ int 				ef::NetworkUDP::can(Mode		mode,
 						    int			target,
 						    int			timeout)
 {
-  struct pollfd			tmp_pfd;
-
-  if (mode == Mode::WRITE)
-    tmp_pfd.events = POLLOUT;
-  else if (mode == Mode::READ)
-    tmp_pfd.events = POLLIN;
-  else
-    tmp_pfd.events = POLLIN | POLLOUT;
   if (target == -1)
-    return(testAllTarget(tmp_pfd, timeout));
-  return(testOneTarget(tmp_pfd, target, timeout));
+    {
+      int				i;
+
+      for (i = 0; i < 2; i += 1)
+	{
+	  if (mode == Mode::WRITE)
+	    pfd[i].events = POLLOUT;
+	  else if (mode == Mode::READ)
+	    pfd[i].events = POLLIN;
+	  else
+	    pfd[i].events = POLLIN | POLLOUT;
+	}
+      return(testAllTarget(timeout));
+    }
+  if (mode == Mode::WRITE)
+    pfd[target].events = POLLOUT;
+  else if (mode == Mode::READ)
+    pfd[target].events = POLLIN;
+  else
+    pfd[target].events = POLLIN | POLLOUT;
+  return(testOneTarget(target, timeout));
 }

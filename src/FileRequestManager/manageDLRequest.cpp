@@ -10,21 +10,25 @@
 
 #include		"fileRequestManager.hh"
 
-void			ef::FileRequestManager::manageDLRequest(s_dowloadRequest const	&	request,
+void			ef::FileRequestManager::manageDLRequest(s_downloadRequest const	&	request,
 								contact const		&	pair)
 {
   if (filesPossessed.find(request.hashFile) != filesPossessed.end())
     sendFile(request, pair);
   else if (filesFind.find(request.hashFile) != filesFind.end())
     {
-      if (pendingDLRequest.find(request.hashFile) == pendingDLRequest.end())
+      addLog("Transfering request to pair's file owner");
+      if (!hasAlreadyRequest(request, pair))
 	{
-	  pendingDLRequest[request.hashFile].pair = pair;
-	  pendingDLRequest[request.hashFile].request = request;
+	  s_request	newRequest;
+
+	  newRequest.pair = pair;
+	  newRequest.request = request;
 	  if (request.type == DL_UNIQUE_REQUEST)
-	    pendingDLRequest[request.hashFile].lastPart = request.nPart + 1;
+	    newRequest.lastPart = request.nPart + 1;
 	  else
-	    pendingDLRequest[request.hashFile].lastPart = request.nPart + (filesFind[hashFile].nbPart / request.nDiv);
+	    newRequest.lastPart = request.nPart + (filesFind[request.hashFile].nbPart / request.nDiv);
+	  pendingDLRequest[request.hashFile].push_back(newRequest);
 	  shareRequest(request, pair);
 	}
       else
@@ -39,5 +43,6 @@ void			ef::FileRequestManager::manageDLRequest(s_dowloadRequest const	&	request,
       data.findAnswer.sizeFile = 0;
       data.findAnswer.hashFile = request.hashFile;
       sendPacket(data, pair);
+      addLog("The file is no longer available, send negative answer !");
     }
 }

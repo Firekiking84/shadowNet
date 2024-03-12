@@ -14,32 +14,46 @@ void			ef::FileRequestManager::timeToDie()
 {
   std::map<uint64_t, fileInfoPair>::iterator	it;
   size_t		now;
+  size_t					i;
 
-  now = reinterpret_cast<size_t>(time(NULL));
-  for (it = filesFind.begin(); it != filesFind.end(); ++it)
+  now = (size_t)time(NULL);
+  for (it = filesFind.begin(); it != filesFind.end();)
     {
-      if ((now - it->second.lastUptdate) > 600)
-	filesFind.erase(it);
+      if ((now - it->second.lastUpdate) > 600)
+	it = filesFind.erase(it);
+      else
+	++it;
     }
-  std::map<uint64_t, s_request>::iterator	dlIt;
+  std::map<uint64_t, std::vector<s_request>>::iterator	dlIt;
+  std::vector<s_request>::iterator			reqIt;
 
-  for (dlIt = pendingDLRequest.begin(); dlIt != pendingDLRequest.end(); ++dlIt)
+  for (dlIt = pendingDLRequest.begin(); dlIt != pendingDLRequest.end();)
     {
-      if ((now - dlIt->second.time) > 60)
-	pendingDLRequest.erase(dlIt);
+      for (reqIt = dlIt->second.begin(); reqIt != dlIt->second.end();)
+	{
+	  if ((now - reqIt->time) > 60)
+	    reqIt = dlIt->second.erase(reqIt);
+	  else
+	    ++reqIt;
+	}
+      if (dlIt->second.size() == 0)
+	dlIt = pendingDLRequest.erase(dlIt);
+      else
+	++dlIt;
     }
 
   std::map<std::string, size_t>::iterator	myIt;
 
-  for (myIt = myPendingRequest.begin(); myIt != myPendingRequest.end(); ++myIt)
+  for (myIt = myPendingRequest.begin(); myIt != myPendingRequest.end();)
     {
       if ((now - myIt->second) > 30)
-	myPendingRequest.erase(myIt);
+	myIt = myPendingRequest.erase(myIt);
+      else
+	++myIt;
     }
 
   std::map<uint64_t, DLInfo>::iterator		curIt;
   std::string					status;
-  size_t					i;
 
   for (curIt = currentDownload.begin(); curIt != currentDownload.end(); ++curIt)
     {
@@ -54,15 +68,15 @@ void			ef::FileRequestManager::timeToDie()
 	  std::map<std::string, contact>::iterator	pairIt;
 
 	  pairIt = filesFind[curIt->first].pairs.begin();
-	  data.type = DL_UNIQUE_REQUEST;
-	  data.nDiv = 0;
-	  data.hashFile = curIt->first;
+	  data.dlRequest.type = DL_UNIQUE_REQUEST;
+	  data.dlRequest.nDiv = 0;
+	  data.dlRequest.hashFile = curIt->first;
 	  getStatus(curIt->first, status);
 	  for (i = 0; i < status.size(); i += 1)
 	    {
 	      if (status[i] == 0)
 		{
-		  data.nPart = i;
+		  data.dlRequest.nPart = i;
 		  sendPacket(data, pairIt->second);
 		  ++pairIt;
 		}

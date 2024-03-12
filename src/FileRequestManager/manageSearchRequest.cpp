@@ -19,7 +19,7 @@ void			ef::FileRequestManager::manageSearchRequest(s_findRequest const	&request,
   size_t		j;
 
   excludeList[pair.label] = pair.label;
-  getKeyWords(request.name, keywords);
+  getKeyWords((char *)request.name, keywords);
   for (i = 0; i < keywords.size(); i += 1)
     {
       if (pendingSearchRequest.find(keywords[i]) != pendingSearchRequest.end())
@@ -37,13 +37,12 @@ void			ef::FileRequestManager::manageSearchRequest(s_findRequest const	&request,
   isFilePossessed(request, pair, keywords);
   if (request.nbRedirection < request.limitRedirection)
     {
-      isFileFind(request, pair, keywords);
-      sendSearchRequest(request.name, request.nbRedirection + 1, request.limitRedirection, excludeList);
-    }
-  std::vector<std::string>	keywords;
-  size_t			i;
+      std::string		filename;
 
-  getKeyWords(request.name, keywords);
+      filename = (char *)request.name;
+      isFileFind(request, pair, keywords);
+      sendSearchRequest(filename, excludeList, request.nbRedirection + 1, request.limitRedirection);
+    }
   for (i = 0; i < keywords.size(); i += 1)
-    pendingSearchRequest[keywords].push_back(pair); // Warning, Could create an error if does not exist
+    pendingSearchRequest[keywords[i]].push_back(pair); // Warning, Could create an error if does not exist
 }

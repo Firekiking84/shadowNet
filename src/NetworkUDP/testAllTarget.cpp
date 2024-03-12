@@ -8,14 +8,11 @@
 
 #include		<iostream>
 
-int			ef::NetworkUDP::testAllTarget(struct pollfd	&	tmp_pfd,
-						      int			timeout)
+int			ef::NetworkUDP::testAllTarget(int			timeout)
 {
   int			i;
   int			status;
 
-  for (i = 0; i < 2; i += 1)
-    pfd[i].events = tmp_pfd.events;
   status = poll(pfd, 2, timeout);
   if (status == -1)
     {
@@ -24,6 +21,6 @@ int			ef::NetworkUDP::testAllTarget(struct pollfd	&	tmp_pfd,
     }
   else if (status == 0)
     return(-3);
-  for (i = 0; i < 2 && !(pfd[i].revents & tmp_pfd.events); i += 1);
+  for (i = 0; i < 2 && !(pfd[i].revents & pfd[i].events); i += 1);
   return(pfd[i].fd);
 }

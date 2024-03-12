@@ -22,12 +22,13 @@ SRC =			src/main.cpp					\
 			src/FileRequestManager/FileRequestManager.cpp	\
 			src/FileRequestManager/forgetFile.cpp		\
 			src/FileRequestManager/getFile.cpp		\
-			src/FileRequestManager/getKeywords.cpp		\
+			src/FileRequestManager/getKeyWords.cpp		\
 			src/FileRequestManager/getStatus.cpp		\
+			src/FileRequestManager/hasAlreadyRequest.cpp	\
 			src/FileRequestManager/isFileFind.cpp		\
 			src/FileRequestManager/isFilePossessed.cpp	\
 			src/FileRequestManager/manageDLRequest.cpp	\
-			src/FileRequestManager/manageDLResult.cpp	\
+			src/FileRequestManager/manageDownload.cpp	\
 			src/FileRequestManager/manageSearchRequest.cpp	\
 			src/FileRequestManager/manageSearchResult.cpp	\
 			src/FileRequestManager/refreshFiles.cpp		\
@@ -47,6 +48,8 @@ SRC =			src/main.cpp					\
 			src/NetworkUDP/sendUser.cpp			\
 			src/NetworkUDP/testAllTarget.cpp		\
 			src/NetworkUDP/testOneTarget.cpp		\
+			src/ProgramStatus/addLog.cpp			\
+			src/ProgramStatus/getLog.cpp			\
 			src/ProgramStatus/ProgramStatus.cpp		\
 			src/ShadowNet/getParameters.cpp			\
 			src/ShadowNet/manageExternalInput.cpp		\
@@ -88,11 +91,7 @@ ifeq ($(GCOV), 1)
 endif
 OPT_FLAGS += $(LAPIN_FLAGS)
 
-all: lib test $(NAME)
-
-rerun: fclean run
-
-run: $(NAME)
+all: $(NAME)
 
 $(LIBFILE): $(OBJS)
 	ar rsc $(LIBFILE) $(OBJS)

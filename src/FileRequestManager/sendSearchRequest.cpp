@@ -19,6 +19,7 @@ void			ef::FileRequestManager::sendSearchRequest(std::string const	&filename,
   if (myPendingRequest.find(filename) == myPendingRequest.end())
     {
       Packet		data;
+      std::string	userMsg;
 
       data.findRequest.type = FIND_REQUEST;
       data.findRequest.nbRedirection = nbRedirect + 1;
@@ -26,14 +27,27 @@ void			ef::FileRequestManager::sendSearchRequest(std::string const	&filename,
 	data.findRequest.limitRedirection = limitRedirection;
       else
 	data.findRequest.limitRedirection = limit;
-      memcpy(data.filename, filename.c_str(), filename.size());
+      memcpy(data.findRequest.name, filename.c_str(), filename.size());
       sendPacket(data, pairs, excludeList);
-      myPendingRequest[filename] = reinterpret_cast<size_t>(time(NULL));
+      myPendingRequest[filename] = (size_t)time(NULL);
+      userMsg = "Request successfully send with a limit of redirection of " + data.findRequest.limitRedirection;
+      sendUser(userMsg);
     }
   else
-    {
-    // do log
-    }
+    sendUser("You have already send a request for this file !");
+}
+
+void			ef::FileRequestManager::sendSearchRequest(std::string const	&filename,
+								  std::vector<contact> const	&excludeList,
+								  int			nbRedirect,
+								  int			limit)
+{
+  std::map<std::string, std::string>	excludeMap;
+  size_t		i;
+
+  for (i = 0; i < excludeList.size(); i += 1)
+    excludeMap[excludeList[i].label] = excludeList[i].label;
+  sendSearchRequest(filename, excludeMap, nbRedirect, limit);
 }
 
 void			ef::FileRequestManager::sendSearchRequest(std::string const	&filename,
@@ -44,7 +58,7 @@ void			ef::FileRequestManager::sendSearchRequest(std::string const	&filename,
   std::map<std::string, std::string>	excludeList;
 
   excludeList[excludeContact.label] = excludeContact.label;
-  sendSearchRequest(filename, nbRedirect, limit, excludeList);
+  sendSearchRequest(filename, excludeList, nbRedirect, limit);
 }
 
 void			ef::FileRequestManager::sendSearchRequest(std::string const	&filename,
@@ -53,5 +67,5 @@ void			ef::FileRequestManager::sendSearchRequest(std::string const	&filename,
 {
   std::vector<contact>	excludeList;
 
-  sendSearchRequest(filename, nbRedirect, limit, excludeList);
+  sendSearchRequest(filename, excludeList, nbRedirect, limit);
 }

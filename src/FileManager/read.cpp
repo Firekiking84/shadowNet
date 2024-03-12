@@ -33,11 +33,13 @@ ssize_t			ef::FileManager::read(std::string	&	content,
       try
 	{
 	  stream.clear();
-	  stream.read(content, size());
+	  stream.read(content.data(), size);
 	}
       catch (const std::ios_base::failure & fail)
+	{
 	return(0);
-      return(stream.gcout());
+	}
+      return(stream.gcount());
     }
   return(-1);
 }

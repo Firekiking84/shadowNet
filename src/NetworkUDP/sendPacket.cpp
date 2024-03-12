@@ -6,53 +6,63 @@
 void			ef::NetworkUDP::sendPacket(Packet const			&	data,
 						   contact const		&	pair)
 {
-  if (can(Mode::WRITE, pfd[EXTERNAL].fd))
+  if (can(Mode::WRITE, EXTERNAL))
     {
       if (data.type == FIND_REQUEST)
 	{
 	  sendto(pfd[EXTERNAL].fd, &data.findRequest, sizeof(data.findRequest), 0,
-		 &pair.sAddr, sizeof(pair.sAddr));
+		 &pair.sAddr, sizeof(pair.addr));
 	}
       else if (data.type == FIND_ANSWER)
 	{
 	  sendto(pfd[EXTERNAL].fd, &data.findAnswer, sizeof(data.findAnswer), 0,
-		 &pair.sAddr, sizeof(pair.sAddr));
+		 &pair.sAddr, sizeof(pair.addr));
 	}
       else if (data.type == DL_REQUEST || data.type == DL_UNIQUE_REQUEST)
 	{
 	  sendto(pfd[EXTERNAL].fd, &data.dlRequest, sizeof(data.dlRequest), 0,
-		 &pair.sAddr, sizeof(pair.sAddr));
+		 &pair.sAddr, sizeof(pair.addr));
 	}
       else if (data.type == DL_FILE)
 	{
 	  sendto(pfd[EXTERNAL].fd, &data.download, sizeof(data.download), 0,
-		 &pair.sAddr, sizeof(pair.sAddr));
+		 &pair.sAddr, sizeof(pair.addr));
 	}
       else if (data.type == PING || data.type == PONG)
 	{
-	  sendto(pfd[EXTERNAL].fd, &data.type, sizeof(data.type), 0,
-		 &pair.sAddr, sizeof(pair.sAddr));
+	  if (sendto(pfd[EXTERNAL].fd, &data.type, sizeof(data.type), 0,
+		     &pair.sAddr, sizeof(pair.addr)) == -1)
+	    perror("sendto ");
 	}
     }
 }
 
 void			ef::NetworkUDP::sendPacket(Packet const			&	data,
+						   contact const		&	pair,
+						   contact const		&	excludeContact)
+{
+  if (excludeContact.label != pair.label)
+    sendPacket(data, pair);
+}
+
+void			ef::NetworkUDP::sendPacket(Packet const			&	data,
 						   std::map<std::string, contact> const	&	contactList,
-						   std::map<std::string, std::string> const	&excludeContact)
+						   std::map<std::string, std::string> const	&excludeList)
 {
   std::map<std::string, contact>::const_iterator	it;
 
   for (it = contactList.begin();
-       it != contactList.end() && excludeContact.find(it->second.label) != excludeContact.end();
+       it != contactList.end();
        ++it)
     {
-      sendPacket(data, it->second, excludeList);
+      if (excludeList.find(it->second.label) == excludeList.end())
+	sendPacket(data, it->second);
     }
 }
 
 void			ef::NetworkUDP::sendPacket(Packet const			&	data,
 						   std::map<std::string, contact> const	&	contactList,
-						   std::map<std::string, std::string> const	&excludeContact)
+						   std::vector<contact> const	&	excludeList)
 {
   size_t		i;
   std::map<std::string, std::string>	excludeMap;
@@ -87,10 +97,11 @@ void			ef::NetworkUDP::sendPacket(Packet const			&	data,
   size_t		i;
 
   for (i = 0;
-       i < contactList.size() && excludeList.find(contactList[i].label) != excludeList.end();
+       i < contactList.size();
        i += 1)
     {
-      sendPacket(data, contactList[i], excludeList);
+      if (excludeList.find(contactList[i].label) != excludeList.end())
+	sendPacket(data, contactList[i]);
     }
 }
 
