@@ -86,6 +86,11 @@ namespace	ef
     std::map<uint64_t, DLInfo>			currentDownload;
     // key = hashFile; value = FD receive status & file
 
+    void	extractDescription(std::string			&dest,
+				   const char			*description);
+    bool	isTargetChar(const char				*targets,
+			     char				testedChar,
+			     bool				isNullTarget = true) const;
     void	getKeyWords(std::string const			&word,
 			    std::vector<std::string>		&keywords) const;
     void	getKeyWords(char const				*word,

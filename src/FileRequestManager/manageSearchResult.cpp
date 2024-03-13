@@ -70,8 +70,7 @@ void		ef::FileRequestManager::manageSearchResult(s_findAnswer const	&	answer,
 	  fileInfoPair	fileInfo;
 	  std::string	description;
 
-	  description = (char *)answer.description; // attention \0
-	  description = description.substr(filename.size());
+	  extractDescription(description, (char *)answer.description);
 	  fileInfo.pairs[pair.label] = pair;
 	  fileInfo.filename = filename;
 	  fileInfo.description = description;

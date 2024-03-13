@@ -27,10 +27,10 @@ void			ef::FileRequestManager::sendSearchRequest(std::string const	&filename,
 	data.findRequest.limitRedirection = limitRedirection;
       else
 	data.findRequest.limitRedirection = limit;
-      memcpy(data.findRequest.name, filename.c_str(), filename.size());
+      memcpy(data.findRequest.name, filename.c_str(), filename.size() + 1); // + 1 -> \0
       sendPacket(data, pairs, excludeList);
       myPendingRequest[filename] = (size_t)time(NULL);
-      userMsg = "Request successfully send with a limit of redirection of " + data.findRequest.limitRedirection;
+      userMsg = "Request successfully send with a limit of redirection of " + std::to_string(data.findRequest.limitRedirection);
       sendUser(userMsg);
     }
   else

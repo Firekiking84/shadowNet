@@ -38,7 +38,7 @@ void			ef::ShadowNet::manageInternalInput()
       std::string	msgUser;
 
       getParameters(buffer, filename);
-      msgUser = "Send request of the file " + filename + " on your network";
+      msgUser = "Send request of the file '" + filename + "' on your network";
       sendUser(msgUser);
       sendSearchRequest(filename);
     }

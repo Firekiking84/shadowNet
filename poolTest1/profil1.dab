@@ -1,0 +1,13 @@
+
+externalPort = 57007
+internalPort = 48881
+limitRedirection = 15
+{pairs
+  [
+    ip = "192.168.200.62"
+    label = "profil2"
+    port = 57006
+  ]
+}
+
+shareDir = "shareDir"

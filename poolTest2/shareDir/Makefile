@@ -19,7 +19,6 @@ SRC =			src/main.cpp					\
 			src/FileManager/seek.cpp			\
 			src/FileManager/write.cpp			\
 			src/FileRequestManager/compareKeywords.cpp	\
-			src/FileRequestManager/extractDescription.cpp	\
 			src/FileRequestManager/FileRequestManager.cpp	\
 			src/FileRequestManager/forgetFile.cpp		\
 			src/FileRequestManager/getFile.cpp		\
@@ -28,7 +27,6 @@ SRC =			src/main.cpp					\
 			src/FileRequestManager/hasAlreadyRequest.cpp	\
 			src/FileRequestManager/isFileFind.cpp		\
 			src/FileRequestManager/isFilePossessed.cpp	\
-			src/FileRequestManager/isTargetChar.cpp		\
 			src/FileRequestManager/manageDLRequest.cpp	\
 			src/FileRequestManager/manageDownload.cpp	\
 			src/FileRequestManager/manageSearchRequest.cpp	\
