@@ -13,6 +13,19 @@ void			ef::ShadowNet::getParameters(std::string const	&	buffer,
 
 void			ef::ShadowNet::getParameters(std::string const	&	buffer,
 						     std::string	&	str1,
+						     std::string	&	str2) const
+{
+  size_t		i;
+
+  for (i = 0; i < buffer.size() && buffer[i] != ' '; i += 1);
+  for (i += 1; i < buffer.size() && buffer[i] != ' '; i += 1)
+    str1.push_back(buffer[i]);
+  for (i += 1; i < buffer.size() && buffer[i] != ' '; i += 1)
+    str2.push_back(buffer[i]);
+}
+
+void			ef::ShadowNet::getParameters(std::string const	&	buffer,
+						     std::string	&	str1,
 						     std::string	&	str2,
 						     int		&	digit) const
 {

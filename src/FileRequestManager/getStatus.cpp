@@ -17,7 +17,7 @@ int			ef::FileRequestManager::getStatus(uint64_t		hashFile,
   size_t		nbAchieve;
 
   nbAchieve = 0;
-  status = currentDownload[hashFile].file.readFile();
+  currentDownload[hashFile].status.readFile(status);
   for (i = 0; i < status.size(); i += 1)
     if (status[i] == '1')
       nbAchieve += 1;
@@ -35,11 +35,17 @@ void			ef::FileRequestManager::getStatus(std::string const	&filename)
 {
   std::map<uint64_t, fileInfoPair>::iterator	it;
   std::string		userMsg;
+  std::vector<std::string>	keywords;
 
-  for (it = filesFind.begin(); it != filesFind.end() && it->second.filename != filename; ++it);
-  if (it != filesFind.end())
+  getKeyWords(filename, keywords);
+  it = filesFind.begin();
+  for (getFile(keywords, it); it != filesFind.end(); getFile(keywords, ++it))
     {
-      userMsg = it->second.pairs.size() + " different paths has been find toward your requested file !";
+      userMsg = "filename : " + it->second.filename;
+      sendUser(userMsg);
+      userMsg = "description : " + it->second.description;
+      sendUser(userMsg);
+      userMsg = "Available on " + std::to_string(it->second.pairs.size()) + " path(s)\n";
       sendUser(userMsg);
       if (currentDownload.find(it->first) != currentDownload.end())
 	{
@@ -47,18 +53,13 @@ void			ef::FileRequestManager::getStatus(std::string const	&filename)
 	  sendUser(userMsg);
 	}
     }
-  else
-    {
-      sendUser("The files has not been find in your pair"); // Log erreur no filename found
-      std::vector<std::string>	keywords;
-      size_t			i;
-      size_t			nbRequest;
+  size_t			i;
+  size_t			nbRequest;
 
-      nbRequest = 0;
-      getKeyWords(filename, keywords);
-      for (i = 0; i < keywords.size(); i += 1)
-	if (pendingSearchRequest.find(keywords[i]) == pendingSearchRequest.end())
-	  nbRequest += 1;
-      userMsg = filename + " is part of " + std::to_string(nbRequest) + " request(s) !";
-    }
- }
+  nbRequest = 0;
+  for (i = 0; i < keywords.size(); i += 1)
+    if (pendingSearchRequest.find(keywords[i]) == pendingSearchRequest.end())
+      nbRequest += 1;
+  userMsg = filename + " is part of " + std::to_string(nbRequest) + " request(s) !";
+  sendUser(userMsg);
+}

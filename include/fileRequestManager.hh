@@ -15,11 +15,13 @@
 #include	"social.hh"
 #include	"fileManager.hh"
 #include	"fileInfo.hh"
+#include	"bitfield.hpp"
 #include	"DLInfo.hh"
 #include	"request.hh"
 
 #include	<ctime>
 #include	<filesystem>
+#include	<bitset>
 
 namespace	ef
 {
@@ -50,8 +52,10 @@ namespace	ef
 				    contact const		&pair);
     void	manageSearchResult(s_findAnswer const		&answer,
 				   contact const		&pair);
-    void	sendDownloadRequest(uint64_t			hashFile);
-    void	sendDownloadRequest(std::string const		&filename);
+    void	sendDownloadRequest(uint64_t			hashFile,
+				    std::string const		&destName);
+    void	sendDownloadRequest(std::string const		&filename,
+				    std::string const		&destName);
     void	manageDLRequest(s_downloadRequest const		&request,
 				contact const			&pair);
     void	manageDownload(s_download const			&answer,

@@ -55,11 +55,11 @@ void			ef::FileRequestManager::timeToDie()
   std::map<uint64_t, DLInfo>::iterator		curIt;
   std::string					status;
 
-  for (curIt = currentDownload.begin(); curIt != currentDownload.end(); ++curIt)
+  for (curIt = currentDownload.begin(); curIt != currentDownload.end();)
     {
       if (filesFind.find(curIt->first) == filesFind.end()) // No one can share the file anymore
 	{
-	  currentDownload.erase(curIt);
+	  curIt = currentDownload.erase(curIt);
 	  // log end of download
 	}
       else if ((now - curIt->second.lastUpdate) > 30)
@@ -81,6 +81,9 @@ void			ef::FileRequestManager::timeToDie()
 		  ++pairIt;
 		}
 	    }
+	  ++curIt;
 	}
+      else
+	++curIt;
     }
 }

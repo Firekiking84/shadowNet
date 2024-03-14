@@ -52,9 +52,10 @@ void			ef::ShadowNet::manageInternalInput()
   else if (buffer.compare(0, 8, "download") == 0) // 8 = strlen("download")
     {
       std::string	filename;
+      std::string	destName;
 
-      getParameters(buffer, filename);
-      sendDownloadRequest(filename);
+      getParameters(buffer, filename, destName);
+      sendDownloadRequest(filename, destName);
     }
   else if (buffer.compare(0, 6, "status") == 0) // 6 = strlen("status")
     {

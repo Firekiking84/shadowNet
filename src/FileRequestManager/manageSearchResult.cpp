@@ -53,7 +53,6 @@ void		ef::FileRequestManager::manageSearchResult(s_findAnswer const	&	answer,
     {
       for (i = 0; i < 2048 && answer.description[i] != '\0'; i += 1)
 	filename.push_back(answer.description[i]);
-      filename.push_back('\0');
       getKeyWords(filename, keywords);
       for (i = 0; i < keywords.size(); i += 1)
 	{

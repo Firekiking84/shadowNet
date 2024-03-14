@@ -45,7 +45,15 @@ namespace		ef
 			     OpenFlags			flags);
     void		close();
     template<typename T>
-    int		read(T			&	tab);
+    int		read(T			&	tab)
+    {
+      if (stream.is_open())
+	{
+	  stream >> tab;
+	  return 1;
+	}
+      return -1;
+    }
 
     ssize_t		readLine(char		*	tab,
 				 unsigned int		tabSize);
@@ -53,7 +61,15 @@ namespace		ef
 				 unsigned int		tabSize,
 				 char			delim);
     template<typename T>
-    int		write(T			&	tab);
+    int		write(T			&	tab)
+    {
+      if (stream.is_open())
+	{
+	  stream << tab;
+	  return 1;
+	}
+      return -1;
+    }
 
     ssize_t		write(char const	*	content,
 			      size_t			len);
@@ -65,9 +81,10 @@ namespace		ef
 			     SeekFlags			flag);
     size_t		getPosition();
     size_t		getFileSize();
-    std::string		readFile();
+    void		readFile(std::string	&	dest);
     bool		isOpen();
     char const		*getFilename();
+    std::fstream	&getStream();
 
   private:
     std::fstream	stream;

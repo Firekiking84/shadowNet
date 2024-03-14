@@ -20,7 +20,7 @@ namespace	ef
   struct		fileInfoPair
   {
     std::map<std::string, contact>	pairs;
-    std::string	filename; //optional // à voir
+    std::string	filename;
     std::string	description;
     uint64_t	sizeFile;
     uint32_t	nbPart;

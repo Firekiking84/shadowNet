@@ -36,8 +36,10 @@ void			ef::FileRequestManager::refreshFiles()
 
 	  filename = dir_entry->path();
 	  FileManager		File(filename, FileManager::OpenFlags::Rdonly);
+	  std::string		fileContent;
 
-	  hashFile = std::hash<std::string>{}(File.readFile());
+	  File.readFile(fileContent);
+	  hashFile = std::hash<std::string>{}(fileContent);
 	  File.close();
 	  sizeFile = std::filesystem::file_size(dir_entry->path());
 	  filesPossessed[hashFile].filename = filename;
@@ -55,7 +57,7 @@ void			ef::FileRequestManager::refreshFiles()
 	  if (std::filesystem::exists(filename))
 	    {
 	      File.open(filename, FileManager::OpenFlags::Rdonly);
-	      filesPossessed[hashFile].description = File.readFile();
+	      File.readFile(filesPossessed[hashFile].description);
 	      File.close();
 	    }
 	  else

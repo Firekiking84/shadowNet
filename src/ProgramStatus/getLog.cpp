@@ -6,7 +6,7 @@ std::string		ef::ProgramStatus::getLog()
 
   logFile.close();
   logFile.open("logs.txt", FileManager::OpenFlags::Rdonly);
-  logs = logFile.readFile();
+  logFile.readFile(logs);
   logFile.close();
   logFile.open("logs.txt", FileManager::OpenFlags::Wronly);
   return(logs);

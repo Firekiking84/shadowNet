@@ -1,27 +1,30 @@
-#ifndef				__SHADOW_NET_HH__
+#ifndef		__SHADOW_NET_HH__
 
-#define				__SHADOW_NET_HH__
+#define		__SHADOW_NET_HH__
 
-#include			"fileRequestManager.hh"
+#include	"fileRequestManager.hh"
 
-namespace			ef
+namespace	ef
 {
-  class				ShadowNet : public FileRequestManager
+  class		ShadowNet : public FileRequestManager
   {
   public:
     ShadowNet(std::string const	&_cnf_name);
     ~ShadowNet();
-    
+
   private:
-    void			run();
-    void			manageExternalInput();
-    void			manageInternalInput();
-    void			getParameters(std::string const	&	buffer,
-					      std::string	&	str1,
-					      std::string	&	str2,
-					      int		&	digit) const;
-    void			getParameters(std::string const	&	buffer,
-					      std::string	&	str1) const;
+    void	run();
+    void	manageExternalInput();
+    void	manageInternalInput();
+    void	getParameters(std::string const	&	buffer,
+			      std::string	&	str1,
+			      std::string	&	str2,
+			      int		&	digit) const;
+    void	getParameters(std::string const	&	buffer,
+			      std::string	&	str1) const;
+    void	getParameters(std::string const &	buffer,
+			      std::string	&	str1,
+			      std::string	&	str2) const;
   };
 }
 

@@ -33,22 +33,23 @@ void			ef::FileRequestManager::manageDownload(s_download const	&	download,
     }
   else if (currentDownload.find(download.request.hashFile) != currentDownload.end())
     {
-      std::string	status;
+      Bitfield		bitPart(filesFind[download.request.hashFile].nbPart);
 
-      currentDownload[download.request.hashFile].status.seek(download.request.nPart, FileManager::SeekFlags::BEG);
-      currentDownload[download.request.hashFile].status.read(status, 1);
-      if (status[download.request.nPart] == '0')
+      currentDownload[download.request.hashFile].status.seek(0, FileManager::SeekFlags::BEG);
+      bitPart.Unserialize(currentDownload[download.request.hashFile].status.getStream());
+      if (bitPart[download.request.nPart] == true)
 	{
 	  addLog("Writing new data recieved !");
 	  currentDownload[download.request.hashFile].file.seek(2048 * download.request.nPart, FileManager::SeekFlags::BEG);
 	  currentDownload[download.request.hashFile].file.write((char *)download.part, download.sizePart);
-	  currentDownload[download.request.hashFile].status.seek(download.request.nPart, FileManager::SeekFlags::BEG);
-	  currentDownload[download.request.hashFile].status.write("1", 1);
+	  bitPart[download.request.nPart] = true;
+	  currentDownload[download.request.hashFile].status.seek(0, FileManager::SeekFlags::BEG);
+	  bitPart.Serialize(currentDownload[download.request.hashFile].status.getStream());
 	  currentDownload[download.request.hashFile].lastUpdate = (size_t)time(NULL);
 	}
       if (getStatus(download.request.hashFile) != 100)
 	return;
-      std::filesystem::path	statusFile(currentDownload[download.request.hashFile].file.getFilename());
+      std::filesystem::path	statusFile(currentDownload[download.request.hashFile].status.getFilename());
       currentDownload.erase(download.request.hashFile);
       std::filesystem::remove(statusFile);
       addLog("A downloading has been successfully completed");

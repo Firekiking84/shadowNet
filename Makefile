@@ -3,6 +3,7 @@ LIBNAME =
 LIBFILE =		lib$(LIBNAME).a
 
 SRC =			src/main.cpp					\
+			src/Bitfield/operator.cpp			\
 			src/contact/contact.cpp				\
 			src/contact/operator.cpp			\
 			src/FileManager/close.cpp			\
@@ -10,6 +11,7 @@ SRC =			src/main.cpp					\
 			src/FileManager/getFilename.cpp			\
 			src/FileManager/getFileSize.cpp			\
 			src/FileManager/getPosition.cpp			\
+			src/FileManager/getStream.cpp			\
 			src/FileManager/isOpen.cpp			\
 			src/FileManager/open.cpp			\
 			src/FileManager/read.cpp			\

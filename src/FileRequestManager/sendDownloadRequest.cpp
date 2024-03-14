@@ -10,7 +10,8 @@
 
 #include		"fileRequestManager.hh"
 
-void			ef::FileRequestManager::sendDownloadRequest(uint64_t			hashFile)
+void			ef::FileRequestManager::sendDownloadRequest(uint64_t			hashFile,
+								    std::string const		&destName)
 {
   if (currentDownload.find(hashFile) != currentDownload.end())
     {
@@ -24,6 +25,7 @@ void			ef::FileRequestManager::sendDownloadRequest(uint64_t			hashFile)
 
   data.type = DL_REQUEST;
   data.dlRequest.nDiv = filesFind[hashFile].pairs.size();
+  data.dlRequest.hashFile = hashFile;
   divSize = filesFind[hashFile].nbPart / data.dlRequest.nDiv;
   i = 0;
   for (it = filesFind[hashFile].pairs.begin();
@@ -35,35 +37,43 @@ void			ef::FileRequestManager::sendDownloadRequest(uint64_t			hashFile)
       i += 1;
     }
   std::string		str;
+  Bitfield		bitPart(filesFind[hashFile].nbPart);
+  size_t		remainSize;
 
-  str = filesFind[hashFile].filename + ".status";
+  str = destName + ".status";
   currentDownload[hashFile].status.open(str, ef::FileManager::OpenFlags::ReadWrite);
+  bitPart.Serialize(currentDownload[hashFile].status.getStream());
   str.clear();
-  for (i = 0; i < filesFind[hashFile].nbPart; i += 1)
-    str.push_back('0');
-  currentDownload[hashFile].status.write(str.c_str(), str.size());
-  currentDownload[hashFile].file.open(filesFind[hashFile].filename, ef::FileManager::OpenFlags::Wronly);
-  for (; i < 2048; i += 1)
-    str.push_back('0');
-  for (i = 0; i < filesFind[hashFile].nbPart; i += 1)
+  for (i = 0; i < 2048; i += 1)
+    str.push_back('\0');
+  currentDownload[hashFile].file.open(destName, ef::FileManager::OpenFlags::Wronly);
+  remainSize = filesFind[hashFile].sizeFile;
+  while (remainSize > 0)
     {
-      if (i == filesFind[hashFile].nbPart - 1)
-	currentDownload[hashFile].file.write(str.c_str(), filesFind[hashFile].sizeFile % 2048);
+      if (remainSize < 2048)
+	{
+	  currentDownload[hashFile].file.write(str.c_str(), remainSize);
+	  remainSize = 0;
+	}
       else
-	currentDownload[hashFile].file.write(str.c_str(), 2048);
+	{
+	  currentDownload[hashFile].file.write(str.c_str(), str.size());
+	  remainSize -= str.size();
+	}
     }
   currentDownload[hashFile].lastUpdate = (size_t)time(NULL);
   sendUser("The downloading has been successfully launched !");
 }
 
-void			ef::FileRequestManager::sendDownloadRequest(std::string const	&	filename)
+void			ef::FileRequestManager::sendDownloadRequest(std::string const	&	filename,
+								    std::string const	&	destName)
 {
   std::map<uint64_t, fileInfoPair>::iterator	it;
 
   for (it = filesFind.begin(); it != filesFind.end(); ++it)
     {
       if (it->second.filename == filename)
-	return(sendDownloadRequest(it->first));
+	return(sendDownloadRequest(it->first, destName));
     }
   sendUser("No pair has the file you requested !");
   return; // log no pair has the file need searching before
