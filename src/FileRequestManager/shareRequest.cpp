@@ -29,9 +29,9 @@ void			ef::FileRequestManager::shareRequest(s_downloadRequest const	&	request,
     }
   else
     {
-      divSize = filesFind[request.hashFile].nbPart / request.nDiv;
       data.dlRequest = request;
-      data.dlRequest.nDiv = request.nDiv * filesFind[request.hashFile].pairs.size();
+      data.dlRequest.nDiv *= filesFind[request.hashFile].pairs.size();
+      divSize = filesFind[request.hashFile].nbPart / request.nDiv;
       i = 0;
       for (it = filesFind[request.hashFile].pairs.begin();
 	   it != filesFind[request.hashFile].pairs.end();

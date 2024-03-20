@@ -3,25 +3,29 @@
 // ***     ***     ***     ******  *******  *****      **********************
 // **  ******  ******  *** *****  *******  *********  ***********************
 // *     ***  ******  *** ***       ****  *****      ************************
-// 20/03/2024 16:58:52 ******************************************************
+// 20/03/2024 16:58:49 ******************************************************
 // keryan.houssin <keryan.houssin@aldrin.efrits.fr>
 // - ShadowNet -
 // * *** * * ***  ** * ** ** ** ** * * * *** * **  **************************
 
 #include		"programStatus.hh"
 
-void			ef::ProgramStatus::addLog(char const		*	newLog)
+void    		ef::ProgramStatus::getLogs(std::vector<std::string>	&	logs)
 {
-  std::string		newStrLog;
+  std::string		log;
+  ssize_t		sizeRcv;
+  ssize_t		maxLogSize;
 
-  newStrLog = newLog;
-  addLog(newStrLog);
-}
-
-void			ef::ProgramStatus::addLog(std::string const	&	newLog)
-{
-  std::string		beautyLog;
-
-  beautyLog = newLog + '\n';
-  logFile.write(beautyLog.c_str(), beautyLog.size());
+  maxLogSize = 2048;
+  logFile.close();
+  logFile.open("logs.txt", FileManager::OpenFlags::Rdonly);
+  sizeRcv = maxLogSize;
+  while (sizeRcv == maxLogSize)
+    {
+      log.clear();
+      sizeRcv = logFile.read(log, maxLogSize);
+      logs.push_back(log);
+    }
+  logFile.close();
+  logFile.open("logs.txt", FileManager::OpenFlags::Wronly);
 }

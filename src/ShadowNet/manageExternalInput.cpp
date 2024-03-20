@@ -1,3 +1,13 @@
+// *****     ***     ***     ***       **       ***      ********************
+// ****  ******  ******  **  *****  *******  *****  *************************
+// ***     ***     ***     ******  *******  *****      **********************
+// **  ******  ******  *** *****  *******  *********  ***********************
+// *     ***  ******  *** ***       ****  *****      ************************
+// 20/03/2024 16:58:37 ******************************************************
+// keryan.houssin <keryan.houssin@aldrin.efrits.fr>
+// - ShadowNet -
+// * *** * * ***  ** * ** ** ** ** * * * *** * **  **************************
+
 #include		"shadowNet.hh"
 
 void			ef::ShadowNet::manageExternalInput()
@@ -39,7 +49,7 @@ void			ef::ShadowNet::manageExternalInput()
     }
   else if (data.type == DL_FILE)
     {
-      newLog = "Manage file transfering send by " + pair.label;
+      newLog = "Manage file send by " + pair.label;
       addLog(newLog);
       manageDownload(data.download, pair);
     }

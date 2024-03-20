@@ -10,25 +10,19 @@
 
 #include		"fileRequestManager.hh"
 
-int			ef::FileRequestManager::getStatus(uint64_t		hashFile,
-							  std::string	&	status)
+int			ef::FileRequestManager::getStatus(uint64_t		hashFile)
 {
   size_t		i;
   size_t		nbAchieve;
+  Bitfield		bitPart(filesFind[hashFile].nbPart);
 
   nbAchieve = 0;
-  currentDownload[hashFile].status.readFile(status);
-  for (i = 0; i < status.size(); i += 1)
-    if (status[i] == '1')
+  currentDownload[hashFile].status.seek(0, FileManager::SeekFlags::BEG);
+  bitPart.Unserialize(currentDownload[hashFile].status.getStream());
+  for (i = 0; i < filesFind[hashFile].nbPart; i += 1)
+    if (bitPart[i] == true)
       nbAchieve += 1;
-  return(nbAchieve * 100 / status.size());
-}
-
-int			ef::FileRequestManager::getStatus(uint64_t		hashFile)
-{
-  std::string		status;
-
-  return(getStatus(hashFile, status));
+  return(nbAchieve * 100 / filesFind[hashFile].nbPart);
 }
 
 void			ef::FileRequestManager::getStatus(std::string const	&filename)
@@ -44,6 +38,8 @@ void			ef::FileRequestManager::getStatus(std::string const	&filename)
       userMsg = "filename : " + it->second.filename;
       sendUser(userMsg);
       userMsg = "description : " + it->second.description;
+      sendUser(userMsg);
+      userMsg = "HashFile : " + std::to_string(it->first);
       sendUser(userMsg);
       userMsg = "Available on " + std::to_string(it->second.pairs.size()) + " path(s)\n";
       sendUser(userMsg);

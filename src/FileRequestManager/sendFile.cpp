@@ -20,25 +20,26 @@ void			ef::FileRequestManager::sendFile(s_downloadRequest const	&	request,
   size_t		i;
   Packet		data;
   std::string		newLog;
+  ssize_t		sizePart;
 
   newLog = "Send file data to " + pair.label;
   addLog(newLog);
-  file.seek(2048 * request.nPart, FileManager::SeekFlags::BEG);
+  file.seek(request.nPart * 2048, FileManager::SeekFlags::BEG);
   if (request.type == DL_UNIQUE_REQUEST)
     nbToRead = 1;
   else
     nbToRead = filesPossessed[request.hashFile].nbPart / request.nDiv;
   data.download.request = request; // a vérifier si ça marche
   data.download.request.type = DL_FILE;
-  for (i = 0; i < nbToRead; i += 1)
+  sizePart = 1;
+  for (i = 0; i < nbToRead && sizePart > 0; i += 1)
     {
-      ssize_t		sizePart;
-
       sizePart = file.read((char *)data.download.part, 2048);
       if (sizePart != -1)
 	{
 	  data.download.sizePart = sizePart;
 	  sendPacket(data, pair);
+	  //	  usleep(100);
 	}
       data.download.request.nPart += 1;
     }

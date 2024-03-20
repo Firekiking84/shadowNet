@@ -1,3 +1,13 @@
+// *****     ***     ***     ***       **       ***      ********************
+// ****  ******  ******  **  *****  *******  *****  *************************
+// ***     ***     ***     ******  *******  *****      **********************
+// **  ******  ******  *** *****  *******  *********  ***********************
+// *     ***  ******  *** ***       ****  *****      ************************
+// 20/03/2024 16:59:47 ******************************************************
+// keryan.houssin <keryan.houssin@aldrin.efrits.fr>
+// - ShadowNet -
+// * *** * * ***  ** * ** ** ** ** * * * *** * **  **************************
+
 #include		"fileManager.hh"
 
 #include		<cstdio>
@@ -33,11 +43,12 @@ ssize_t			ef::FileManager::read(std::string	&	content,
       try
 	{
 	  stream.clear();
+	  content.resize(size);
 	  stream.read(content.data(), size);
 	}
       catch (const std::ios_base::failure & fail)
 	{
-	return(0);
+	  return(0);
 	}
       return(stream.gcount());
     }

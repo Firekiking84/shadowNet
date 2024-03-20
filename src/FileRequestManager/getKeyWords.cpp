@@ -19,12 +19,12 @@ void			ef::FileRequestManager::getKeyWords(std::string const			&word,
   keywords.clear();
   for (i = 0; i < word.size() && word[i] != '\0'; i += 1)
     {
-      if (isTargetChar(" _\\-/", word[i], true) && keyword.size() > 0)
+      if (isTargetChar(". _\\-/", word[i], true) && keyword.size() > 0)
 	{
 	  keywords.push_back(keyword);
 	  keyword.clear();
 	}
-      else if (!isTargetChar(" _\\-/", word[i], true))
+      else if (!isTargetChar(". _\\-/", word[i], true))
 	keyword.push_back(word[i]);
     }
   if (keyword.size() > 0)

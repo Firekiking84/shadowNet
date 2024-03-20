@@ -3,31 +3,25 @@
 // ***     ***     ***     ******  *******  *****      **********************
 // **  ******  ******  *** *****  *******  *********  ***********************
 // *     ***  ******  *** ***       ****  *****      ************************
-// 20/03/2024 16:59:33 ******************************************************
+// 20/03/2024 17:15:10 ******************************************************
 // keryan.houssin <keryan.houssin@aldrin.efrits.fr>
 // - ShadowNet -
 // * *** * * ***  ** * ** ** ** ** * * * *** * **  **************************
 
-#include		"fileManager.hh"
-#include		<cstdio>
+#include	"shadowNet.hh"
 
-ssize_t			ef::FileManager::write(char const	*	content,
-					       size_t			len)
+void		ef::ShadowNet::cmdRequestfile(std::string const	&	 buffer)
 {
-  if (stream.is_open())
+  std::string	filename;
+  std::string	msgUser;
+
+  getParameters(buffer, filename);
+  if (filename.size() > 0)
     {
-      try
-	{
-	  stream.clear();
-	  stream.write(content, len);
-	}
-      catch (const std::ios_base::failure & fail)
-	{
-	  perror("Write ");
-	  std::cerr << fail.what() << std::endl;
-	  len = 0;
-	}
-      return(len);
+      msgUser = "Send request of the file '" + filename + "' on your network";
+      sendUser(msgUser);
+      sendSearchRequest(filename);
     }
-  return(-1);
+  else
+    sendUser("Missing argument : requestfile [filename]");
 }

@@ -52,10 +52,10 @@ namespace	ef
 				    contact const		&pair);
     void	manageSearchResult(s_findAnswer const		&answer,
 				   contact const		&pair);
-    void	sendDownloadRequest(uint64_t			hashFile,
-				    std::string const		&destName);
-    void	sendDownloadRequest(std::string const		&filename,
-				    std::string const		&destName);
+    void	createDownloadRequest(uint64_t			hashFile,
+				      std::string const		&destName);
+    void	createDownloadRequest(std::string const		&filename,
+				      std::string const		&destName);
     void	manageDLRequest(s_downloadRequest const		&request,
 				contact const			&pair);
     void	manageDownload(s_download const			&answer,
@@ -129,6 +129,7 @@ namespace	ef
 			   std::vector<std::string> const	&	keywords);
     bool	hasAlreadyRequest(s_downloadRequest const	&	request,
 				  contact const			&	pair);
+    void	shareDLRequest(uint64_t					hashFile);
 
   };
 }

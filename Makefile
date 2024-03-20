@@ -2,75 +2,85 @@ NAME =			shadownet
 LIBNAME =
 LIBFILE =		lib$(LIBNAME).a
 
-SRC =			src/main.cpp					\
-			src/Bitfield/operator.cpp			\
-			src/contact/contact.cpp				\
-			src/contact/operator.cpp			\
-			src/FileManager/close.cpp			\
-			src/FileManager/FileManager.cpp			\
-			src/FileManager/getFilename.cpp			\
-			src/FileManager/getFileSize.cpp			\
-			src/FileManager/getPosition.cpp			\
-			src/FileManager/getStream.cpp			\
-			src/FileManager/isOpen.cpp			\
-			src/FileManager/open.cpp			\
-			src/FileManager/read.cpp			\
-			src/FileManager/readFile.cpp			\
-			src/FileManager/readLine2.cpp			\
-			src/FileManager/readLine.cpp			\
-			src/FileManager/seek.cpp			\
-			src/FileManager/write.cpp			\
-			src/FileRequestManager/compareKeywords.cpp	\
-			src/FileRequestManager/extractDescription.cpp	\
-			src/FileRequestManager/FileRequestManager.cpp	\
-			src/FileRequestManager/forgetFile.cpp		\
-			src/FileRequestManager/getFile.cpp		\
-			src/FileRequestManager/getKeyWords.cpp		\
-			src/FileRequestManager/getStatus.cpp		\
-			src/FileRequestManager/hasAlreadyRequest.cpp	\
-			src/FileRequestManager/isFileFind.cpp		\
-			src/FileRequestManager/isFilePossessed.cpp	\
-			src/FileRequestManager/isTargetChar.cpp		\
-			src/FileRequestManager/manageDLRequest.cpp	\
-			src/FileRequestManager/manageDownload.cpp	\
-			src/FileRequestManager/manageSearchRequest.cpp	\
-			src/FileRequestManager/manageSearchResult.cpp	\
-			src/FileRequestManager/refreshFiles.cpp		\
-			src/FileRequestManager/removeExtension.cpp	\
-			src/FileRequestManager/sendDownloadRequest.cpp	\
-			src/FileRequestManager/sendFile.cpp		\
-			src/FileRequestManager/sendSearchRequest.cpp	\
-			src/FileRequestManager/shareRequest.cpp		\
-			src/FileRequestManager/timeToDie.cpp		\
-			src/NetworkUDP/can.cpp				\
-			src/NetworkUDP/NetworkUDP.cpp			\
-			src/NetworkUDP/newAddr.cpp			\
-			src/NetworkUDP/readFd.cpp			\
-			src/NetworkUDP/recvFromFd.cpp			\
-			src/NetworkUDP/recvPacket.cpp			\
-			src/NetworkUDP/sendPacket.cpp			\
-			src/NetworkUDP/sendUser.cpp			\
-			src/NetworkUDP/testAllTarget.cpp		\
-			src/NetworkUDP/testOneTarget.cpp		\
-			src/ProgramStatus/addLog.cpp			\
-			src/ProgramStatus/getLog.cpp			\
-			src/ProgramStatus/ProgramStatus.cpp		\
-			src/ShadowNet/getParameters.cpp			\
-			src/ShadowNet/manageExternalInput.cpp		\
-			src/ShadowNet/manageInternalInput.cpp		\
-			src/ShadowNet/run.cpp				\
-			src/ShadowNet/ShadowNet.cpp			\
-			src/Social/addPair.cpp				\
-			src/Social/isAPair.cpp				\
-			src/Social/loadPairs.cpp			\
-			src/Social/removePair.cpp			\
-			src/Social/savePairs.cpp			\
-			src/Social/Social.cpp				\
-			src/User/invalidConf.cpp			\
-			src/User/openConf.cpp				\
-			src/User/resetConf.cpp				\
-			src/User/saveConf.cpp				\
-			src/User/User.cpp				\
+SRC =			src/main.cpp						\
+			src/Bitfield/operator.cpp				\
+			src/contact/contact.cpp					\
+			src/contact/operator.cpp				\
+			src/FileManager/close.cpp				\
+			src/FileManager/FileManager.cpp				\
+			src/FileManager/getFilename.cpp				\
+			src/FileManager/getFileSize.cpp				\
+			src/FileManager/getPosition.cpp				\
+			src/FileManager/getStream.cpp				\
+			src/FileManager/isOpen.cpp				\
+			src/FileManager/open.cpp				\
+			src/FileManager/read.cpp				\
+			src/FileManager/readFile.cpp				\
+			src/FileManager/readLine2.cpp				\
+			src/FileManager/readLine.cpp				\
+			src/FileManager/seek.cpp				\
+			src/FileManager/write.cpp				\
+			src/FileRequestManager/compareKeywords.cpp		\
+			src/FileRequestManager/createDownloadRequest.cpp	\
+			src/FileRequestManager/extractDescription.cpp		\
+			src/FileRequestManager/FileRequestManager.cpp		\
+			src/FileRequestManager/forgetFile.cpp			\
+			src/FileRequestManager/getFile.cpp			\
+			src/FileRequestManager/getKeyWords.cpp			\
+			src/FileRequestManager/getStatus.cpp			\
+			src/FileRequestManager/hasAlreadyRequest.cpp		\
+			src/FileRequestManager/isFileFind.cpp			\
+			src/FileRequestManager/isFilePossessed.cpp		\
+			src/FileRequestManager/isTargetChar.cpp			\
+			src/FileRequestManager/manageDLRequest.cpp		\
+			src/FileRequestManager/manageDownload.cpp		\
+			src/FileRequestManager/manageSearchRequest.cpp		\
+			src/FileRequestManager/manageSearchResult.cpp		\
+			src/FileRequestManager/refreshFiles.cpp			\
+			src/FileRequestManager/removeExtension.cpp		\
+			src/FileRequestManager/sendFile.cpp			\
+			src/FileRequestManager/sendSearchRequest.cpp		\
+			src/FileRequestManager/shareDLRequest.cpp		\
+			src/FileRequestManager/shareRequest.cpp			\
+			src/FileRequestManager/timeToDie.cpp			\
+			src/NetworkUDP/can.cpp					\
+			src/NetworkUDP/NetworkUDP.cpp				\
+			src/NetworkUDP/newAddr.cpp				\
+			src/NetworkUDP/readFd.cpp				\
+			src/NetworkUDP/recvFromFd.cpp				\
+			src/NetworkUDP/recvPacket.cpp				\
+			src/NetworkUDP/sendPacket.cpp				\
+			src/NetworkUDP/sendUser.cpp				\
+			src/NetworkUDP/testAllTarget.cpp			\
+			src/NetworkUDP/testOneTarget.cpp			\
+			src/ProgramStatus/addLog.cpp				\
+			src/ProgramStatus/getLogs.cpp				\
+			src/ProgramStatus/ProgramStatus.cpp			\
+			src/ShadowNet/cmdAddfriend.cpp				\
+			src/ShadowNet/cmdDownloadFilename.cpp			\
+			src/ShadowNet/cmdForgetfile.cpp				\
+			src/ShadowNet/cmdRemovefriend.cpp			\
+			src/ShadowNet/cmdRequestfile.cpp			\
+			src/ShadowNet/cmdStatus.cpp				\
+			src/ShadowNet/getParameters.cpp				\
+			src/ShadowNet/manageExternalInput.cpp			\
+			src/ShadowNet/manageInternalInput.cpp			\
+			src/ShadowNet/pingPairs.cpp				\
+			src/ShadowNet/run.cpp					\
+			src/ShadowNet/sendAvailableCMD.cpp			\
+			src/ShadowNet/sendLogs.cpp				\
+			src/ShadowNet/ShadowNet.cpp				\
+			src/Social/addPair.cpp					\
+			src/Social/isAPair.cpp					\
+			src/Social/loadPairs.cpp				\
+			src/Social/removePair.cpp				\
+			src/Social/savePairs.cpp				\
+			src/Social/Social.cpp					\
+			src/User/invalidConf.cpp				\
+			src/User/openConf.cpp					\
+			src/User/resetConf.cpp					\
+			src/User/saveConf.cpp					\
+			src/User/User.cpp					\
 
 OBJS =			$(SRC:.cpp=.o)
 INCLUDE =		-I./include
@@ -105,6 +115,14 @@ lib:$(LIBFILE)
 .cpp.o:
 	$(CPP) $(FLAGS) $(OPT_FLAGS) $(TEST_INCLUDE) $(INCLUDE) -c $< -o $@
 
+pool: $(NAME)
+	cp $(NAME) poolTest1/
+	cp $(NAME) poolTest2/
+	cp $(NAME) poolTest3/
+	cp $(NAME) poolTest4/
+
+repool: fclean pool
+
 clean:
 	rm -f Makefile~
 	rm -f $(shell find ./ -name "*.o")
@@ -122,6 +140,3 @@ tree: fclean
 
 $(NAME):$(OBJS)
 	$(CPP) $(OBJS) $(OPT_FLAGS) $(LDFLAGS) -o $(NAME)
-
-
-

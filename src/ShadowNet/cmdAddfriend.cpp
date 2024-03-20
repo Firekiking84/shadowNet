@@ -3,31 +3,22 @@
 // ***     ***     ***     ******  *******  *****      **********************
 // **  ******  ******  *** *****  *******  *********  ***********************
 // *     ***  ******  *** ***       ****  *****      ************************
-// 20/03/2024 16:59:33 ******************************************************
+// 20/03/2024 17:21:01 ******************************************************
 // keryan.houssin <keryan.houssin@aldrin.efrits.fr>
 // - ShadowNet -
 // * *** * * ***  ** * ** ** ** ** * * * *** * **  **************************
 
-#include		"fileManager.hh"
-#include		<cstdio>
+#include	"shadowNet.hh"
 
-ssize_t			ef::FileManager::write(char const	*	content,
-					       size_t			len)
+void		ef::ShadowNet::cmdAddfriend(std::string const &	buffer)
 {
-  if (stream.is_open())
-    {
-      try
-	{
-	  stream.clear();
-	  stream.write(content, len);
-	}
-      catch (const std::ios_base::failure & fail)
-	{
-	  perror("Write ");
-	  std::cerr << fail.what() << std::endl;
-	  len = 0;
-	}
-      return(len);
-    }
-  return(-1);
+  contact		stranger;
+  std::string       msgUser;
+
+  sendUser("Adding Pair...");
+  getParameters(buffer, stranger.label, stranger.ip, stranger.port);
+  if (stranger.label.size() > 0 && stranger.ip.size() > 0 && stranger.port > 0)
+    addPair(stranger);
+  else
+    sendUser("Missing argument(s) : addfriend [label] [ip] [port]");
 }

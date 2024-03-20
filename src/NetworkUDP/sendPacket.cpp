@@ -1,3 +1,13 @@
+// *****     ***     ***     ***       **       ***      ********************
+// ****  ******  ******  **  *****  *******  *****  *************************
+// ***     ***     ***     ******  *******  *****      **********************
+// **  ******  ******  *** *****  *******  *********  ***********************
+// *     ***  ******  *** ***       ****  *****      ************************
+// 20/03/2024 16:58:58 ******************************************************
+// keryan.houssin <keryan.houssin@aldrin.efrits.fr>
+// - ShadowNet -
+// * *** * * ***  ** * ** ** ** ** * * * *** * **  **************************
+
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -6,27 +16,31 @@
 void			ef::NetworkUDP::sendPacket(Packet const			&	data,
 						   contact const		&	pair)
 {
-  if (can(Mode::WRITE, EXTERNAL))
+  if (can(Mode::WRITE, EXTERNAL) == pfd[EXTERNAL].fd)
     {
       if (data.type == FIND_REQUEST)
 	{
-	  sendto(pfd[EXTERNAL].fd, &data.findRequest, sizeof(data.findRequest), 0,
-		 &pair.sAddr, sizeof(pair.addr));
+	  if (sendto(pfd[EXTERNAL].fd, &data.findRequest, sizeof(data.findRequest), 0,
+		     &pair.sAddr, sizeof(pair.addr)) == -1)
+	    perror("sendto : ");
 	}
       else if (data.type == FIND_ANSWER)
 	{
-	  sendto(pfd[EXTERNAL].fd, &data.findAnswer, sizeof(data.findAnswer), 0,
-		 &pair.sAddr, sizeof(pair.addr));
+	  if (sendto(pfd[EXTERNAL].fd, &data.findAnswer, sizeof(data.findAnswer), 0,
+		     &pair.sAddr, sizeof(pair.addr)) == -1)
+	    perror("sendto : ");
 	}
       else if (data.type == DL_REQUEST || data.type == DL_UNIQUE_REQUEST)
 	{
-	  sendto(pfd[EXTERNAL].fd, &data.dlRequest, sizeof(data.dlRequest), 0,
-		 &pair.sAddr, sizeof(pair.addr));
+	  if (sendto(pfd[EXTERNAL].fd, &data.dlRequest, sizeof(data.dlRequest), 0,
+		     &pair.sAddr, sizeof(pair.addr)) == -1)
+	    perror("sendto : ");
 	}
       else if (data.type == DL_FILE)
 	{
-	  sendto(pfd[EXTERNAL].fd, &data.download, sizeof(data.download), 0,
-		 &pair.sAddr, sizeof(pair.addr));
+	  if (sendto(pfd[EXTERNAL].fd, &data.download, sizeof(data.download), 0,
+		     &pair.sAddr, sizeof(pair.addr)) == -1)
+	    perror("sendto : ");
 	}
       else if (data.type == PING || data.type == PONG)
 	{
@@ -35,6 +49,8 @@ void			ef::NetworkUDP::sendPacket(Packet const			&	data,
 	    perror("sendto ");
 	}
     }
+  else
+    addLog("\n\nPoll Error \n\n");
 }
 
 void			ef::NetworkUDP::sendPacket(Packet const			&	data,
@@ -100,7 +116,7 @@ void			ef::NetworkUDP::sendPacket(Packet const			&	data,
        i < contactList.size();
        i += 1)
     {
-      if (excludeList.find(contactList[i].label) != excludeList.end())
+      if (excludeList.find(contactList[i].label) == excludeList.end())
 	sendPacket(data, contactList[i]);
     }
 }

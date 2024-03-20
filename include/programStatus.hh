@@ -4,6 +4,7 @@
 
 #include				<lapin.h>
 #include				<iostream>
+#include				<vector>
 
 #include				"fileManager.hh"
 
@@ -15,7 +16,7 @@ namespace				ef
     ProgramStatus();
     virtual ~ProgramStatus();
 
-    std::string				getLog();
+    void				getLogs(std::vector<std::string> &	logs);
     void				addLog(const char		*	newLog);
     void				addLog(std::string const	&	newLog);
   protected:

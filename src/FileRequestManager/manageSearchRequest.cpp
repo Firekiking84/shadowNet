@@ -38,10 +38,13 @@ void			ef::FileRequestManager::manageSearchRequest(s_findRequest const	&request,
   if (request.nbRedirection < request.limitRedirection)
     {
       std::string		filename;
+      Packet			data;
 
       filename = (char *)request.name;
       isFileFind(request, pair, keywords);
-      sendSearchRequest(filename, excludeList, request.nbRedirection + 1, request.limitRedirection);
+      data.findRequest = request;
+      data.findRequest.nbRedirection += 1;
+      sendPacket(data, pairs, excludeList);
     }
   for (i = 0; i < keywords.size(); i += 1)
     pendingSearchRequest[keywords[i]].push_back(pair); // Warning, Could create an error if does not exist

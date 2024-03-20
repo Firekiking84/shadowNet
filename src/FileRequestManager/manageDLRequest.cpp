@@ -28,6 +28,7 @@ void			ef::FileRequestManager::manageDLRequest(s_downloadRequest const	&	request
 	    newRequest.lastPart = request.nPart + 1;
 	  else
 	    newRequest.lastPart = request.nPart + (filesFind[request.hashFile].nbPart / request.nDiv);
+	  newRequest.time = (size_t)time(NULL);
 	  pendingDLRequest[request.hashFile].push_back(newRequest);
 	  shareRequest(request, pair);
 	}

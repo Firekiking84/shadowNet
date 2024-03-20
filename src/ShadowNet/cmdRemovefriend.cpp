@@ -3,31 +3,21 @@
 // ***     ***     ***     ******  *******  *****      **********************
 // **  ******  ******  *** *****  *******  *********  ***********************
 // *     ***  ******  *** ***       ****  *****      ************************
-// 20/03/2024 16:59:33 ******************************************************
+// 20/03/2024 17:17:43 ******************************************************
 // keryan.houssin <keryan.houssin@aldrin.efrits.fr>
 // - ShadowNet -
 // * *** * * ***  ** * ** ** ** ** * * * *** * **  **************************
 
-#include		"fileManager.hh"
-#include		<cstdio>
+#include	"shadowNet.hh"
 
-ssize_t			ef::FileManager::write(char const	*	content,
-					       size_t			len)
+void		ef::ShadowNet::cmdRemovefriend(std::string const &	buffer)
 {
-  if (stream.is_open())
-    {
-      try
-	{
-	  stream.clear();
-	  stream.write(content, len);
-	}
-      catch (const std::ios_base::failure & fail)
-	{
-	  perror("Write ");
-	  std::cerr << fail.what() << std::endl;
-	  len = 0;
-	}
-      return(len);
-    }
-  return(-1);
+  std::string	label;
+
+  sendUser("Removing Pair...");
+  getParameters(buffer, label);
+  if (label.size() > 0)
+    removePair(label);
+  else
+    sendUser("Missing argument : removefriend [label]");
 }

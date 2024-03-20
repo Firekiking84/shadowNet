@@ -3,31 +3,23 @@
 // ***     ***     ***     ******  *******  *****      **********************
 // **  ******  ******  *** *****  *******  *********  ***********************
 // *     ***  ******  *** ***       ****  *****      ************************
-// 20/03/2024 16:59:33 ******************************************************
+// 20/03/2024 17:09:42 ******************************************************
 // keryan.houssin <keryan.houssin@aldrin.efrits.fr>
 // - ShadowNet -
 // * *** * * ***  ** * ** ** ** ** * * * *** * **  **************************
 
-#include		"fileManager.hh"
-#include		<cstdio>
+#include		"shadowNet.hh"
 
-ssize_t			ef::FileManager::write(char const	*	content,
-					       size_t			len)
+void			ef::ShadowNet::sendAvailableCMD()
 {
-  if (stream.is_open())
-    {
-      try
-	{
-	  stream.clear();
-	  stream.write(content, len);
-	}
-      catch (const std::ios_base::failure & fail)
-	{
-	  perror("Write ");
-	  std::cerr << fail.what() << std::endl;
-	  len = 0;
-	}
-      return(len);
-    }
-  return(-1);
+  sendUser("Available command : ");
+  sendUser(" - addfriend [label] [ip] [port]");
+  sendUser(" - removefriend [label]");
+  sendUser(" - requestfile [filename]");
+  sendUser(" - forgetfile [filename]");
+  sendUser(" - download [path/hash] [destName]");
+  sendUser(" - status [filename]");
+  sendUser(" - logs");
+  sendUser(" - ping");
+  sendUser(" - check");
 }

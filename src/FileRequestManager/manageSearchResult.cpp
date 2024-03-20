@@ -74,6 +74,7 @@ void		ef::FileRequestManager::manageSearchResult(s_findAnswer const	&	answer,
 	  fileInfo.filename = filename;
 	  fileInfo.description = description;
 	  fileInfo.nbPart = answer.answer;
+	  fileInfo.sizeFile = answer.sizeFile;
 	  fileInfo.lastUpdate = (size_t)time(NULL);
 	  filesFind[answer.hashFile] = fileInfo;
 	  description = filename + " has been find on your network !";

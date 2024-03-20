@@ -10,35 +10,19 @@
 
 #include		"fileRequestManager.hh"
 
-void			ef::FileRequestManager::sendDownloadRequest(uint64_t			hashFile,
-								    std::string const		&destName)
+void			ef::FileRequestManager::createDownloadRequest(uint64_t			hashFile,
+								      std::string const		&destName)
 {
   if (currentDownload.find(hashFile) != currentDownload.end())
     {
       sendUser("This file is already downloading !");
       return; // log Already downloading
     }
-  Packet		data;
-  size_t		divSize;
-  size_t		i;
-  std::map<std::string, contact>::iterator	it;
-
-  data.type = DL_REQUEST;
-  data.dlRequest.nDiv = filesFind[hashFile].pairs.size();
-  data.dlRequest.hashFile = hashFile;
-  divSize = filesFind[hashFile].nbPart / data.dlRequest.nDiv;
-  i = 0;
-  for (it = filesFind[hashFile].pairs.begin();
-       it != filesFind[hashFile].pairs.end();
-       ++it)
-    {
-      data.dlRequest.nPart = i * divSize;
-      sendPacket(data, it->second);
-      i += 1;
-    }
+  shareDLRequest(hashFile);
   std::string		str;
   Bitfield		bitPart(filesFind[hashFile].nbPart);
   size_t		remainSize;
+  size_t		i;
 
   str = destName + ".status";
   currentDownload[hashFile].status.open(str, ef::FileManager::OpenFlags::ReadWrite);
@@ -65,7 +49,7 @@ void			ef::FileRequestManager::sendDownloadRequest(uint64_t			hashFile,
   sendUser("The downloading has been successfully launched !");
 }
 
-void			ef::FileRequestManager::sendDownloadRequest(std::string const	&	filename,
+void			ef::FileRequestManager::createDownloadRequest(std::string const	&	filename,
 								    std::string const	&	destName)
 {
   std::map<uint64_t, fileInfoPair>::iterator	it;
@@ -73,7 +57,7 @@ void			ef::FileRequestManager::sendDownloadRequest(std::string const	&	filename,
   for (it = filesFind.begin(); it != filesFind.end(); ++it)
     {
       if (it->second.filename == filename)
-	return(sendDownloadRequest(it->first, destName));
+	return(createDownloadRequest(it->first, destName));
     }
   sendUser("No pair has the file you requested !");
   return; // log no pair has the file need searching before

@@ -13,8 +13,8 @@ namespace	ef
   {
     std::string	filename;
     std::string	description;
-    uint64_t	sizeFile;
-    uint32_t	nbPart;
+    uint64_t	sizeFile = 0;
+    uint32_t	nbPart = 0;
   };
 
   struct		fileInfoPair
@@ -22,9 +22,9 @@ namespace	ef
     std::map<std::string, contact>	pairs;
     std::string	filename;
     std::string	description;
-    uint64_t	sizeFile;
-    uint32_t	nbPart;
-    size_t	lastUpdate;
+    uint64_t	sizeFile = 0;
+    uint32_t	nbPart = 0;
+    size_t	lastUpdate = 0;
   };
 }
 

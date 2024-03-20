@@ -62,23 +62,33 @@ void			ef::FileRequestManager::timeToDie()
 	  curIt = currentDownload.erase(curIt);
 	  // log end of download
 	}
-      else if ((now - curIt->second.lastUpdate) > 30)
+      else if ((now - curIt->second.lastUpdate) > 1)
 	{
 	  Packet				data;
-	  std::map<std::string, contact>::iterator	pairIt;
+	  Bitfield				bitPart(filesFind[curIt->first].nbPart);
 
-	  pairIt = filesFind[curIt->first].pairs.begin();
-	  data.dlRequest.type = DL_UNIQUE_REQUEST;
-	  data.dlRequest.nDiv = 0;
+	  currentDownload[curIt->first].status.seek(0, FileManager::SeekFlags::BEG);
+	  bitPart.Unserialize(currentDownload[curIt->first].status.getStream());
 	  data.dlRequest.hashFile = curIt->first;
-	  getStatus(curIt->first, status);
-	  for (i = 0; i < status.size(); i += 1)
+	  if (getStatus(curIt->first) < 20)
+	    shareDLRequest(curIt->first);
+	  else
 	    {
-	      if (status[i] == 0)
+	      std::map<std::string, contact>::iterator	pairIt;
+
+	      pairIt = filesFind[curIt->first].pairs.begin();
+	      data.dlRequest.type = DL_UNIQUE_REQUEST;
+	      data.dlRequest.nDiv = 1;
+	      for (i = 0; i < filesFind[curIt->first].nbPart; i += 1)
 		{
-		  data.dlRequest.nPart = i;
-		  sendPacket(data, pairIt->second);
-		  ++pairIt;
+		  if (bitPart[i] == false)
+		    {
+		      data.dlRequest.nPart = i;
+		      sendPacket(data, pairIt->second);
+		      ++pairIt;
+		      if (pairIt == filesFind[curIt->first].pairs.end())
+			pairIt = filesFind[curIt->first].pairs.begin();
+		    }
 		}
 	    }
 	  ++curIt;

@@ -3,31 +3,20 @@
 // ***     ***     ***     ******  *******  *****      **********************
 // **  ******  ******  *** *****  *******  *********  ***********************
 // *     ***  ******  *** ***       ****  *****      ************************
-// 20/03/2024 16:59:33 ******************************************************
+// 20/03/2024 17:03:39 ******************************************************
 // keryan.houssin <keryan.houssin@aldrin.efrits.fr>
 // - ShadowNet -
 // * *** * * ***  ** * ** ** ** ** * * * *** * **  **************************
 
-#include		"fileManager.hh"
-#include		<cstdio>
+#include	"shadowNet.hh"
 
-ssize_t			ef::FileManager::write(char const	*	content,
-					       size_t			len)
+void		ef::ShadowNet::pingPairs()
 {
-  if (stream.is_open())
-    {
-      try
-	{
-	  stream.clear();
-	  stream.write(content, len);
-	}
-      catch (const std::ios_base::failure & fail)
-	{
-	  perror("Write ");
-	  std::cerr << fail.what() << std::endl;
-	  len = 0;
-	}
-      return(len);
-    }
-  return(-1);
+  Packet		newPacket;
+  std::string	userMsg;
+
+  newPacket.type = PING;
+  userMsg = "Ping to your " + std::to_string(pairs.size()) + " pair(s)";
+  sendUser(userMsg);
+  sendPacket(newPacket, pairs);
 }

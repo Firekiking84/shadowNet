@@ -65,7 +65,7 @@ namespace		ef
     {
       if (stream.is_open())
 	{
-	  stream << tab;
+	  stream << tab << std::flush;
 	  return 1;
 	}
       return -1;
