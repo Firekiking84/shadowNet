@@ -1,0 +1,4 @@
+
+externalPort = 57005
+internalPort = 48879
+limitRedirection = 15
