@@ -20,8 +20,10 @@ SRC =			src/main.cpp						\
 			src/FileManager/readLine.cpp				\
 			src/FileManager/seek.cpp				\
 			src/FileManager/write.cpp				\
+			src/FileRequestManager/answerNoFileFound.cpp		\
 			src/FileRequestManager/compareKeywords.cpp		\
 			src/FileRequestManager/createDownloadRequest.cpp	\
+			src/FileRequestManager/endDownload.cpp			\
 			src/FileRequestManager/extractDescription.cpp		\
 			src/FileRequestManager/FileRequestManager.cpp		\
 			src/FileRequestManager/forgetFile.cpp			\
@@ -36,6 +38,7 @@ SRC =			src/main.cpp						\
 			src/FileRequestManager/manageDownload.cpp		\
 			src/FileRequestManager/manageSearchRequest.cpp		\
 			src/FileRequestManager/manageSearchResult.cpp		\
+			src/FileRequestManager/proceedDownload.cpp		\
 			src/FileRequestManager/refreshFiles.cpp			\
 			src/FileRequestManager/removeExtension.cpp		\
 			src/FileRequestManager/sendFile.cpp			\
@@ -43,6 +46,8 @@ SRC =			src/main.cpp						\
 			src/FileRequestManager/shareDLRequest.cpp		\
 			src/FileRequestManager/shareRequest.cpp			\
 			src/FileRequestManager/timeToDie.cpp			\
+			src/FileRequestManager/transferDLRequest.cpp		\
+			src/FileRequestManager/transferPacketFile.cpp		\
 			src/NetworkUDP/can.cpp					\
 			src/NetworkUDP/NetworkUDP.cpp				\
 			src/NetworkUDP/newAddr.cpp				\

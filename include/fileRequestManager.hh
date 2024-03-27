@@ -130,7 +130,15 @@ namespace	ef
     bool	hasAlreadyRequest(s_downloadRequest const	&	request,
 				  contact const			&	pair);
     void	shareDLRequest(uint64_t					hashFile);
-
+    void	answerNoFileFound(s_downloadRequest const	&	request,
+				  contact const			&	pair);
+    void	transferDLRequest(s_downloadRequest const	&	request,
+				  contact const			&	pair);
+    void	transferPacketFile(s_download const		&	download,
+				   contact const		&	pair);
+    void	endDownload(s_download const			&	download);
+    void	proceedDownload(s_download const		&	download,
+				contact const			&	pair);
   };
 }
 
