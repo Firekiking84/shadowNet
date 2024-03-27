@@ -8,6 +8,7 @@ void			ef::Button::mouseClickEvent(t_bunny_mouse_button_event	mouseButton,
       if (pullIn && isReleased)
 	{
 	  modeCol = HOVER;
+	  pullIn = false;
 	  trigger();
 	}
       else if (!pullIn && !isReleased)
