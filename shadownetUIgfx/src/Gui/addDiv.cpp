@@ -25,11 +25,11 @@ void			ef::Gui::addDiv(std::string const		&name,
       size.y += pos.y; //	pos.y is negative so it's a substraction
       pos.y = 0;
     }
-  if (posEnd.x >= width)
+  if (posEnd.x > width)
     size.x -= posEnd.x - width - 1;
-  if (posEnd.y >= height)
+  if (posEnd.y > height)
     size.y -= posEnd.y - height - 1;
   if (size.x <= 0 || size.y <= 0)
     throw(std::runtime_error("Wrong size or position outside the div, cannot create div !"));
-  divs.emplace(std::make_pair(std::string(name), Div(px, pos, size, bg, mousePos)));
+  divs.emplace(std::make_pair(std::string(name), Div(px, pos, size, bg)));
 }

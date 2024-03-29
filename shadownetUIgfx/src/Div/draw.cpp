@@ -8,4 +8,8 @@ void			ef::Div::draw()
     drawRectangle(px, pos, posEnd, *bg);
   for (i = 0; i < buttons.size(); i += 1)
     buttons[i].draw();
+  for (i = 0; i < textEntries.size(); i += 1)
+    textEntries[i].draw();
+  for (i = 0; i < textAreas.size(); i += 1)
+    textAreas[i].draw();
 }

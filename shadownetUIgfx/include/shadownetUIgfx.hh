@@ -21,6 +21,7 @@ namespace			ef
 						   t_bunny_mouse_button		button,
 						   void				*data2);
   t_bunny_response		loop(void					*data2);
+  t_bunny_response		display(void					*data2);
   t_bunny_response		key_event_response(t_bunny_event_state		state,
 						   t_bunny_keysym		sym,
 						   void				*data2);

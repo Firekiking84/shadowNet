@@ -15,7 +15,17 @@ namespace	ef
 			      t_bunny_color		col);
   void		blit(t_bunny_pixelarray			*target,
 		     const t_bunny_pixelarray		*src,
-		     const t_bunny_position		*pos);
+		     const t_bunny_position		*pos,
+		     t_bunny_color			*forcedCol = nullptr);
+  double	get_ratio(int				a,
+			  int				b,
+			  int				x);
+  int		get_value(int				a,
+			  int				b,
+			  double			ratio);
+  int		get_npos(int				width,
+			 t_bunny_position		pos);
+
   struct		t_blit
   {
     t_bunny_position	shift;

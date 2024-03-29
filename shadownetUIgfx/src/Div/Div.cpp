@@ -3,12 +3,10 @@
 ef::Div::Div(t_bunny_pixelarray		*_px,
 	     t_bunny_position		_pos,
 	     t_bunny_position		_size,
-	     t_bunny_color		*_bg,
-	     t_bunny_position const	*_mousePos)
+	     t_bunny_color		*_bg)
   : px(_px)
   , pos(_pos)
   , bg(_bg)
-  , mousePos(_mousePos)
   , lastWasIn(false)
 {
   posEnd.x = pos.x + _size.x;
@@ -25,7 +23,6 @@ ef::Div::Div(Div const			&other)
   , pos(other.pos)
   , posEnd(other.posEnd)
   , bg(other.bg)
-  , mousePos(other.mousePos)
   , buttons(other.buttons)
   , lastWasIn(other.lastWasIn)
 {

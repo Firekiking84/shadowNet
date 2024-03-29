@@ -2,6 +2,11 @@
 
 #define			__TEXT_ENTRY_HH__
 
+#include		"draw.hh"
+
+#include		<lapin.h>
+#include		<functional>
+
 namespace		ef
 {
   class			TextEntry
@@ -10,11 +15,21 @@ namespace		ef
     TextEntry(t_bunny_position				_pos,
 	      int					_nbCharMax,
 	      int					_nbLinesMax,
-	      int					_sizeLetters,
+	      int					_sizeLetter,
 	      t_bunny_pixelarray			*_px,
 	      t_bunny_color				_bg,
 	      t_bunny_color				_colLetter,
-	      std::function<void(const char *)>		_output);
+	      std::function<void(std::string const &)>	_output);
+    TextEntry(t_bunny_position				_pos,
+	      t_bunny_position				_posEnd,
+	      t_bunny_size				_sizeLetter,
+	      int					_nbCharMax,
+	      int					_nbLinesMax,
+	      t_bunny_pixelarray			*_px,
+	      t_bunny_color				_bg,
+	      t_bunny_color				_colLetter,
+	      std::function<void(std::string const &)>	_output);
+    TextEntry(TextEntry const				&other);
     ~TextEntry();
     void		draw();
     void		mouseClickEvent(t_bunny_mouse_button_event	mouseButton,
@@ -33,15 +48,15 @@ namespace		ef
     t_bunny_pixelarray					*font;
     t_bunny_color					bg;
     t_bunny_color					colLetter;
-    std::function<void(const char *)>			output;
+    std::function<void(std::string const &)>			output;
     bool						focus;
     bool						pullIn;
     std::string						text;
-    int							sizeTextDisplay;
+    size_t						sizeTextDisplay;
 
     bool		inBox(int			x,
 			      int			y) const;
-  }
+  };
 }
 
 #endif //		__TEXT_ENTRY_HH__

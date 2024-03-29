@@ -7,15 +7,11 @@ void			ef::TextEntry::mouseClickEvent(t_bunny_mouse_button_event	mouseButton,
     {
       if (pullIn && isReleased)
 	{
-	  modeCol = HOVER;
 	  pullIn = false;
 	  focus = true;
 	}
       else if (!pullIn && !isReleased)
-	{
-	  modeCol = PULL;
-	  pullIn = true;
-	}
+	pullIn = true;
     }
   else if (!isReleased && mouseButton.button == BMB_LEFT)
     focus = false;

@@ -3,6 +3,7 @@
 void			ef::TextEntry::draw()
 {
   size_t		start;
+  size_t		i;
   t_bunny_position	drawPos;
   int			nLine;
   int			nChar;
@@ -16,12 +17,12 @@ void			ef::TextEntry::draw()
   nChar = 0;
   for (i = start; i < text.size(); i += 1)
     {
-      drawPos.x = pos.x + (nChar * sizeLetter.x);
-      drawPos.y = pos.y + (nLine * sizeLetter.y);
-      font->clipable.clip_x_position = (text[i] - ' ') * sizeLetter.x;
-      blit(px, font, drawPos);
+      drawPos.x = pos.x + 1 + (nChar * sizeLetter.x);
+      drawPos.y = pos.y + 1 + (nLine * sizeLetter.y);
+      font->clipable.clip_x_position = text[i] * sizeLetter.x;
+      blit(px, font, &drawPos, &colLetter);
       nChar += 1;
-      if (nChar > nbCharMax)
+      if (nChar >= nbCharMax)
 	{
 	  nChar = 0;
 	  nLine += 1;

@@ -9,22 +9,22 @@ t_bunny_response	ef::Gui::realEventResponse(t_bunny_event const	&event)
     {
       if (event.key.sym == BKS_ESCAPE && !event.key.alt && !event.key.control && !event.key.shift)
 	return(EXIT_ON_SUCCESS);
-      }
+      else
+	for (it = divs.begin(); it != divs.end(); ++it)
+	  it->second.keyEvent(event.key);
+    }
   else if (event.type == BET_MOUSE_MOVED)
-    {
-      for (it = divs.begin(); it != divs.end(); ++it)
-	it->second.mouseMoveEvent(event.mouse_moved);
-    }
+    for (it = divs.begin(); it != divs.end(); ++it)
+      it->second.mouseMoveEvent(event.mouse_moved);
   else if (event.type == BET_MOUSE_BUTTON_PRESSED)
-    {
-      for (it = divs.begin(); it != divs.end(); ++it)
-	it->second.mouseClickEvent(event.mouse_button, false);
-    }
+    for (it = divs.begin(); it != divs.end(); ++it)
+      it->second.mouseClickEvent(event.mouse_button, false);
   else if (event.type == BET_MOUSE_BUTTON_RELEASED)
-    {
-      for (it = divs.begin(); it != divs.end(); ++it)
-	it->second.mouseClickEvent(event.mouse_button, true);
-    }
+    for (it = divs.begin(); it != divs.end(); ++it)
+      it->second.mouseClickEvent(event.mouse_button, true);
+  else if (event.type == BET_TEXT_ENTERED)
+    for (it = divs.begin(); it != divs.end(); ++it)
+      it->second.textEvent(event.text);
   return(GO_ON);
 }
 

@@ -10,5 +10,7 @@ void			ef::Div::mouseClickEvent(t_bunny_mouse_button_event	mouseButton,
 
       for (i = 0; i < buttons.size(); i += 1)
 	buttons[i].mouseClickEvent(mouseButton, isReleased);
+      for (i = 0; i < textEntries.size(); i += 1)
+	textEntries[i].mouseClickEvent(mouseButton, isReleased);
     }
 }
